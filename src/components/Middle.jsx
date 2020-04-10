@@ -23,10 +23,9 @@ export default class _ extends Component {
 
   componentDidMount() {
     axios
-      .get(`http://localhost:4000/games`)
+      .get(`http://localhost:4000/games/nuevosJuegos`)
       .then((res) => {
         this.setState({ juegos: res.data });
-        console.log(this.state.juegos);
       })
       .catch((err) => console.log(err));
   }
@@ -62,6 +61,7 @@ export default class _ extends Component {
                     waves="light"
                     className="purple darken-3"
                     onClick={this.imprimir}
+                    tooltip="Busca un videojuego con tus ideas sobre el"
                   >
                     Buscar
                     <Icon right>search</Icon>
@@ -74,6 +74,7 @@ export default class _ extends Component {
                   type="submit"
                   waves="light"
                   className="red darken-3"
+                  tooltip="Limpiar la entrada de datos"
                   onClick={() => this.setState({ busqueda: "" })}
                 >
                   Borrar
@@ -85,7 +86,6 @@ export default class _ extends Component {
           </ul>
           <br />
           <br />
-          Los videojuegos mas recientes:
           <Collapsible accordion>
             {this.state.juegos.map((juego) => {
               return (
@@ -93,18 +93,26 @@ export default class _ extends Component {
                   key={juego._id}
                   expanded={false}
                   header={juego.title}
-                  icon={<Icon>filter_drama</Icon>}
+                  icon={
+                    <Icon>
+                      {iconos[Math.floor(Math.random() * iconos.length)]}
+                    </Icon>
+                  }
                   node="div"
                 >
                   <Card
                     style={{ backgroundcolor: "red" }}
-                    actions={[<div key={juego._id}>This is a link</div>]}
+                    actions={[
+                      <div key={juego._id}>Año de salida: {juego.year}</div>,
+                    ]}
                     header={
                       <CardTitle image="https://materializecss.com/images/sample-1.jpg" />
                     }
                     horizontal
                   >
-                    Here is the standard card with a horizontal image.
+                    <h5>Descripción del videojuego:</h5>
+                    <br />
+                    {juego.description}
                   </Card>
                 </CollapsibleItem>
               );
@@ -117,3 +125,16 @@ export default class _ extends Component {
     );
   }
 }
+
+const iconos = [
+  "directions_boat",
+  "directions_bus",
+  "directions_bike",
+  "directions_run",
+  "directions_transit",
+  "euro_symbol",
+  "flight",
+  "home",
+  "music_note",
+  "whatshot",
+];

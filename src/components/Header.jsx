@@ -10,7 +10,7 @@ import {
   Navbar,
   NavItem,
 } from "react-materialize";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./css/Header.css";
 
 export default class _ extends Component {

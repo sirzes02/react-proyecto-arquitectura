@@ -3,8 +3,25 @@ const router = express.Router();
 
 const Game = require("../Models/Game");
 
+// Obtener todos los juegos
 router.get("/", async (req, res) => {
-  const games = await Game.find();
+  var games = await Game.find();
+  res.json(games);
+});
+
+//Obtener Los 5 ultimos juegos
+router.get("/nuevosJuegos", async (req, res) => {
+  let games = await Game.find();
+
+  //Orden segun el anio
+  games.sort(function (a, b) {
+    return a.year - b.year;
+  });
+
+  //Borrado de restantes
+  if (games.length >= 5)
+    for (let i = 5; i < games.length; i++) games.splice(i, 1);
+
   res.json(games);
 });
 
@@ -21,7 +38,7 @@ router.post("/", async (req, res) => {
     year,
     hardware,
     requirements,
-    description
+    description,
   } = req.body;
   const game = new Game({
     title,
@@ -30,7 +47,7 @@ router.post("/", async (req, res) => {
     year,
     hardware,
     requirements,
-    description
+    description,
   });
   await game.save();
   res.json({ status: "Game Saved" });
@@ -44,7 +61,7 @@ router.put("/:id", async (req, res) => {
     year,
     hardware,
     requirements,
-    description
+    description,
   } = req.body;
   const newGame = {
     title,
@@ -53,7 +70,7 @@ router.put("/:id", async (req, res) => {
     year,
     hardware,
     requirements,
-    description
+    description,
   };
   await Game.findByIdAndUpdate(req.params.id, newGame);
   res.json({ status: "Game Updated" });
