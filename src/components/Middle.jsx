@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "react-materialize";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import "./css/Middle.css";
 
 export default class _ extends Component {
@@ -31,7 +32,6 @@ export default class _ extends Component {
   }
 
   imprimir = () => {
-    this.setState({ juegos: [] });
     console.log(this.state);
   };
 
@@ -55,16 +55,18 @@ export default class _ extends Component {
             </li>
             <li>
               <div style={{ float: "left" }}>
-                <Button
-                  node="button"
-                  type="submit"
-                  waves="light"
-                  className="purple darken-3"
-                  onClick={this.imprimir}
-                >
-                  Buscar
-                  <Icon right>search</Icon>
-                </Button>
+                <Link to="/busqueda">
+                  <Button
+                    node="button"
+                    type="submit"
+                    waves="light"
+                    className="purple darken-3"
+                    onClick={this.imprimir}
+                  >
+                    Buscar
+                    <Icon right>search</Icon>
+                  </Button>
+                </Link>
               </div>
               <div style={{ float: "right" }}>
                 <Button

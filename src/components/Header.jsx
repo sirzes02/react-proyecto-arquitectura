@@ -8,8 +8,9 @@ import {
   Button,
   Icon,
   Navbar,
-  NavItem
+  NavItem,
 } from "react-materialize";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import "./css/Header.css";
 
 export default class _ extends Component {
@@ -21,7 +22,7 @@ export default class _ extends Component {
       clasificacion: "",
       anio: "",
       dispositivo: "",
-      requisitos: ""
+      requisitos: "",
     };
   }
 
@@ -34,7 +35,7 @@ export default class _ extends Component {
     M.Sidenav.init(document.querySelector("#slide-out"), {});
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -44,9 +45,13 @@ export default class _ extends Component {
         <Navbar
           alignLinks="left"
           brand={
-            <div className="brand-logo" style={{ paddingRight: 20 }}>
+            <Link
+              to="/"
+              className="brand-logo right"
+              style={{ paddingRight: 20 }}
+            >
               Busqueda de videojuegos
-            </div>
+            </Link>
           }
           options={estiloNav}
         >
@@ -226,8 +231,8 @@ const estiloSelect = {
     onCloseStart: null,
     onOpenEnd: null,
     onOpenStart: null,
-    outDuration: 250
-  }
+    outDuration: 250,
+  },
 };
 
 const estiloNav = {
@@ -239,5 +244,5 @@ const estiloNav = {
   onOpenEnd: null,
   onOpenStart: null,
   outDuration: 200,
-  preventScrolling: true
+  preventScrolling: true,
 };
