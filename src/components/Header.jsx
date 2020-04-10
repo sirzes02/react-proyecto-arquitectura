@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import M from "materialize-css";
 import fondo from "../assets/fondo.jpg";
-import user from "../assets/user.png";
 import {
   Select,
   TextInput,
@@ -69,9 +68,7 @@ export default class _ extends Component {
               <div className="background">
                 <img src={fondo} alt="Fondo" />
               </div>
-              <div>
-                <img className="circle" src={user} alt="Usuario" />
-              </div>
+              <br />
               <br />
               <span className="black-text name">Usuario de pruebas</span>
               <span className="black-text email">
@@ -209,6 +206,14 @@ export default class _ extends Component {
           <li>
             <br />
             <div className="divider"></div>
+            <br />
+          </li>
+          <li>
+            <div className="container">
+              <span className="black-text">
+                ¿Es usted <Link to="/rutaAdministrador">Administrador</Link>?
+              </span>
+            </div>
           </li>
         </ul>
       </div>

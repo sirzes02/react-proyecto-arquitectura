@@ -10,6 +10,10 @@
     "http-errors": "^1.7.3",
     "mongoose": "^5.9.7"
   },
+  "scripts": {
+    "start": "node ./server.js",
+    "mon": "nodemon ./server.js"
+  },
   "devDependencies": {
     "nodemon": "^2.0.3"
   }
