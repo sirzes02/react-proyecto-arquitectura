@@ -13,10 +13,6 @@ router.get("/:id", async (req, res) => {
   res.json(games);
 });
 
-router.get("/about/", function(req, res) {
-  res.json({ status: "ABOUT" });
-});
-
 router.post("/", async (req, res) => {
   const {
     title,

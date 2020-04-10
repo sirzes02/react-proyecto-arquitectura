@@ -1,6 +1,14 @@
 import React, { Component } from "react";
-import { Button, Icon, TextInput } from "react-materialize";
-//import axios from "axios";
+import {
+  Button,
+  Icon,
+  TextInput,
+  Collapsible,
+  CollapsibleItem,
+  Card,
+  CardTitle,
+} from "react-materialize";
+import axios from "axios";
 import "./css/Middle.css";
 
 export default class _ extends Component {
@@ -8,30 +16,23 @@ export default class _ extends Component {
     super(props);
     this.state = {
       busqueda: "",
+      juegos: [],
     };
   }
 
-  imprimir = () => {
-    console.log(this.state);
-
-    /*
+  componentDidMount() {
     axios
       .get(`http://localhost:4000/games`)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-    
-    axios
-      .post("http://localhost:4000/games/", {
-        title: "GTA",
-        genre: "ACCION",
-        clasification: "+18",
-        year: 2004,
-        hardware: "PC - MOVIL",
-        requirements: 1,
-        description: "GTA es un juego de accion",
+      .then((res) => {
+        this.setState({ juegos: res.data });
+        console.log(this.state.juegos);
       })
-      .then((res) => console.log(res));
-  */
+      .catch((err) => console.log(err));
+  }
+
+  imprimir = () => {
+    this.setState({ juegos: [] });
+    console.log(this.state);
   };
 
   handleChange = (e) => {
@@ -80,8 +81,36 @@ export default class _ extends Component {
               <br />
             </li>
           </ul>
+          <br />
+          <br />
+          Los videojuegos mas recientes:
+          <Collapsible accordion>
+            {this.state.juegos.map((juego) => {
+              return (
+                <CollapsibleItem
+                  key={juego._id}
+                  expanded={false}
+                  header={juego.title}
+                  icon={<Icon>filter_drama</Icon>}
+                  node="div"
+                >
+                  <Card
+                    style={{ backgroundcolor: "red" }}
+                    actions={[<div key={juego._id}>This is a link</div>]}
+                    header={
+                      <CardTitle image="https://materializecss.com/images/sample-1.jpg" />
+                    }
+                    horizontal
+                  >
+                    Here is the standard card with a horizontal image.
+                  </Card>
+                </CollapsibleItem>
+              );
+            })}
+          </Collapsible>
+          <br />
+          <br />
         </div>
-        <br />
       </div>
     );
   }
