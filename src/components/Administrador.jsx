@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import M from "materialize-css";
 import { TextInput, Button, Icon } from "react-materialize";
 import { Redirect } from "react-router-dom";
-import axios from "axios";
+import PropTypes from "prop-types";
 import "./css/Administrador.css";
 
 export default class _ extends Component {
@@ -12,12 +12,11 @@ export default class _ extends Component {
   }
 
   componentDidMount() {
-    M.Sidenav.init(document.querySelector("#slide-out"), {});
-    if (localStorage.getItem("admin")) this.props.actualizar();
+    //if (localStorage.getItem("admin")) this.props.actualizar();
   }
 
   render() {
-    if (this.state.admin || localStorage.getItem("admin"))
+    if (this.state.admin /*|| localStorage.getItem("admin")*/)
       return <Redirect to="/admin" />;
     return (
       <div className="Administrador">
@@ -38,10 +37,10 @@ export default class _ extends Component {
             tooltip="Ingresar a la sección de administrador"
             className="purple darken-3"
             onClick={() => {
-              axios
-                .get(`http://localhost:4000/passwords/${this.state.password}`)
-                .then((res) => {
-                  if (res.data.status) {
+              fetch(`http://localhost:4000/passwords/${this.state.password}`)
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.status) {
                     this.props.actualizar();
                     this.setState({ admin: true });
                     localStorage.setItem("admin", true);
@@ -50,7 +49,7 @@ export default class _ extends Component {
                     M.toast({ html: "¡Contraseña incorrecta!" });
                   }
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => console.error(err));
             }}
           >
             Ingresar
@@ -62,3 +61,7 @@ export default class _ extends Component {
     );
   }
 }
+
+_.propTypes = {
+  actualizar: PropTypes.func.isRequired,
+};

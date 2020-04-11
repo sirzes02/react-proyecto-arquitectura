@@ -8,7 +8,6 @@ import {
   Card,
   CardTitle,
 } from "react-materialize";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "./css/Middle.css";
 
@@ -22,12 +21,10 @@ export default class _ extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get(`http://localhost:4000/games/nuevosJuegos`)
-      .then((res) => {
-        this.setState({ juegos: res.data });
-      })
-      .catch((err) => console.log(err));
+    fetch(`http://localhost:4000/games/nuevosJuegos`)
+      .then((res) => res.json())
+      .then((data) => this.setState({ juegos: data }))
+      .catch((err) => console.error(err));
   }
 
   imprimir = () => {
@@ -77,7 +74,7 @@ export default class _ extends Component {
                   tooltip="Limpiar la entrada de datos"
                   onClick={() => this.setState({ busqueda: "" })}
                 >
-                  Borrar
+                  Limpiar
                   <Icon right>delete</Icon>
                 </Button>
               </div>

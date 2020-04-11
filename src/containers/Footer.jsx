@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Footer } from "react-materialize";
-import "./css/Footer.css";
+import "../css/Footer.css";
 
 export default class _ extends Component {
   render() {
