@@ -317,20 +317,6 @@ export default class _ extends Component {
   }
 }
 
-const estiloModal = {
-  dismissible: true,
-  endingTop: "10%",
-  inDuration: 250,
-  onCloseEnd: null,
-  onCloseStart: null,
-  onOpenEnd: null,
-  onOpenStart: null,
-  opacity: 0.5,
-  outDuration: 250,
-  preventScrolling: true,
-  startingTop: "4%",
-};
-
 const estiloSelect = {
   classes: "",
   dropdownOptions: {

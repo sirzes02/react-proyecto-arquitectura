@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Tabs, Tab } from "react-materialize";
 import Juegos from "../containers/Juegos";
+import Contrasenias from "../containers/Contrasenias";
 
 export default class _ extends Component {
   render() {
@@ -11,7 +12,7 @@ export default class _ extends Component {
             <Juegos />
           </Tab>
           <Tab options={estiloTab} title="Contraseñas">
-            Test 2
+            <Contrasenias />
           </Tab>
         </Tabs>
       </div>

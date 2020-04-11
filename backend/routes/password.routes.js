@@ -16,8 +16,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  var games = await Password.find();
-  res.json(games);
+  var password = await Password.find();
+  res.json(password);
 });
 
 router.post("/", async (req, res) => {
