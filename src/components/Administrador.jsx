@@ -3,7 +3,7 @@ import M from "materialize-css";
 import { TextInput, Button, Icon } from "react-materialize";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-import "./css/Administrador.css";
+import "../css/Administrador.css";
 
 export default class _ extends Component {
   constructor(props) {
