@@ -49,7 +49,6 @@ export default class _ extends Component {
           <li>
             <Link to="/busqueda">
               <Button
-                node="button"
                 type="submit"
                 waves="light"
                 className="purple darken-3"
@@ -62,7 +61,6 @@ export default class _ extends Component {
             </Link>
             <Button
               style={{ float: "right" }}
-              node="button"
               type="submit"
               waves="light"
               className="red darken-3"
@@ -105,7 +103,6 @@ export default class _ extends Component {
                             </Button>,
                           ]}
                           header={juego.title}
-                          options={estiloModal}
                           trigger={
                             <Button node="button" className="purple darken-3">
                               Leer descripción
@@ -150,20 +147,6 @@ export default class _ extends Component {
     );
   }
 }
-
-const estiloModal = {
-  dismissible: true,
-  endingTop: "10%",
-  inDuration: 250,
-  onCloseEnd: null,
-  onCloseStart: null,
-  onOpenEnd: null,
-  onOpenStart: null,
-  opacity: 0.5,
-  outDuration: 250,
-  preventScrolling: true,
-  startingTop: "4%",
-};
 
 const iconos = [
   "directions_boat",

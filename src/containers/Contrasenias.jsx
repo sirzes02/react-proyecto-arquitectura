@@ -15,10 +15,6 @@ export default class _ extends Component {
     this.listaPassword();
   }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
   listaPassword = () => {
     fetch(`http://localhost:4000/passwords/`)
       .then((res) => res.json())
@@ -78,14 +74,15 @@ export default class _ extends Component {
                   name="password"
                   type="text"
                   value={this.state.password}
-                  onChange={this.handleChange}
+                  onChange={(e) =>
+                    this.setState({ [e.target.name]: e.target.value })
+                  }
                   required
                   xl={12}
                 />
               </li>
               <li>
                 <Button
-                  node="button"
                   type="submit"
                   waves="light"
                   className="purple darken-3"
@@ -97,11 +94,10 @@ export default class _ extends Component {
                   <Icon right>send</Icon>
                 </Button>
                 <Button
-                  node="button"
                   type="reset"
-                  tooltip="Limpiar los campos"
                   waves="light"
                   className="red darken-3"
+                  tooltip="Limpiar los campos"
                   style={{ float: "right" }}
                   onClick={() =>
                     this.setState({
@@ -134,7 +130,6 @@ export default class _ extends Component {
                     <td>
                       <Button
                         small
-                        node="button"
                         waves="light"
                         className="red darken-3"
                         onClick={() => this.eliminarpass(password._id)}

@@ -6,12 +6,7 @@ export default class _ extends Component {
   render() {
     return (
       <div className="Parallax">
-        <Parallax
-          image={<img alt="" src={this.props.imagen} width="25" />}
-          options={{
-            responsiveThreshold: 0,
-          }}
-        />
+        <Parallax image={<img alt="" src={this.props.imagen} width="25" />} />
       </div>
     );
   }

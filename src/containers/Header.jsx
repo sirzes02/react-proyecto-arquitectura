@@ -52,7 +52,6 @@ export default class _ extends Component {
               Busqueda de videojuegos
             </Link>
           }
-          options={estiloNav}
         >
           <NavItem
             data-target="slide-out"
@@ -76,15 +75,13 @@ export default class _ extends Component {
               </span>
             </div>
           </li>
-          <li>
-            <div className="divider"></div>
-          </li>
+          <li className="divider" />
           <div className="container">
             <li>
               <TextInput
                 id="textinput_1_header"
-                label="Nombre"
                 name="nombre"
+                label="Nombre"
                 type="text"
                 value={this.state.nombre}
                 onChange={this.handleChange}
@@ -93,11 +90,10 @@ export default class _ extends Component {
             <li>
               <Select
                 id="select_1_header"
-                multiple={false}
-                value={this.state.genero}
-                onChange={this.handleChange}
                 name="genero"
                 label="Genero"
+                value={this.state.genero}
+                onChange={this.handleChange}
               >
                 <option defaultValue="">-</option>
                 <option value="1">Accion</option>
@@ -111,11 +107,9 @@ export default class _ extends Component {
               <Select
                 id="select_2_header"
                 name="clasificacion"
-                multiple={false}
-                onChange={this.handleChange}
-                options={estiloSelect}
-                value={this.state.clasificacion}
                 label="Clasificación"
+                value={this.state.clasificacion}
+                onChange={this.handleChange}
               >
                 <option defaultValue="">-</option>
                 <option value="1">EC</option>
@@ -130,8 +124,8 @@ export default class _ extends Component {
             <li>
               <TextInput
                 id="textinput_2_header"
-                label="Año de salida"
                 name="anio"
+                label="Año de salida"
                 type="number"
                 min="1940"
                 max="2020"
@@ -145,11 +139,9 @@ export default class _ extends Component {
               <Select
                 id="select_3_header"
                 name="dispositivo"
-                multiple={false}
-                onChange={this.handleChange}
-                options={estiloSelect}
-                value={this.state.dispositivo}
                 label="Dispositivo"
+                value={this.state.dispositivo}
+                onChange={this.handleChange}
               >
                 <option defaultValue="">-</option>
                 <option value="1">Celular</option>
@@ -160,11 +152,9 @@ export default class _ extends Component {
               <Select
                 id="select_4_header"
                 name="requisitos"
-                multiple={false}
-                onChange={this.handleChange}
-                options={estiloSelect}
-                value={this.state.requisitos}
                 label="Requisitos"
+                value={this.state.requisitos}
+                onChange={this.handleChange}
               >
                 <option defaultValue="">-</option>
                 <option value="1">Altos</option>
@@ -172,9 +162,8 @@ export default class _ extends Component {
                 <option value="2">Bajos</option>
               </Select>
             </li>
-            <li>
+            <li className="center">
               <Button
-                node="button"
                 type="submit"
                 waves="light"
                 className="purple darken-3"
@@ -186,7 +175,7 @@ export default class _ extends Component {
             </li>
           </div>
           <li style={{ paddingTop: 40, paddingBottom: 40 }}>
-            <div className="divider"></div>
+            <div className="divider" />
           </li>
           <li>
             <div className="container">
@@ -200,34 +189,3 @@ export default class _ extends Component {
     );
   }
 }
-
-const estiloSelect = {
-  classes: "",
-  dropdownOptions: {
-    alignment: "left",
-    autoTrigger: true,
-    closeOnClick: true,
-    constrainWidth: true,
-    container: null,
-    coverTrigger: true,
-    hover: false,
-    inDuration: 150,
-    onCloseEnd: null,
-    onCloseStart: null,
-    onOpenEnd: null,
-    onOpenStart: null,
-    outDuration: 250,
-  },
-};
-
-const estiloNav = {
-  draggable: true,
-  edge: "left",
-  inDuration: 250,
-  onCloseEnd: null,
-  onCloseStart: null,
-  onOpenEnd: null,
-  onOpenStart: null,
-  outDuration: 200,
-  preventScrolling: true,
-};

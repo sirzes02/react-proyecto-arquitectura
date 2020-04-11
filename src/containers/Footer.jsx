@@ -28,18 +28,10 @@ export default class _ extends Component {
               </li>
             </ul>
           }
-          moreLinks={
-            <div className="grey-text text-lighten-4 right">
-              Santiago Varela - José Castro
-            </div>
-          }
+          moreLinks={<div className="right">Santiago Varela - José Castro</div>}
         >
-          <h5 className="white-text">
-            Proyecto de arquitectura de la información
-          </h5>
-          <p className="grey-text text-lighten-4">
-            Objetivo de analisis: MERN - Videojuegos
-          </p>
+          <h5>Proyecto de arquitectura de la información</h5>
+          <p>Objetivo de analisis: MERN - Videojuegos</p>
         </Footer>
       </div>
     );

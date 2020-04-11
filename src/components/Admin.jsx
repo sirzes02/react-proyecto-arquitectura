@@ -8,10 +8,10 @@ export default class _ extends Component {
     return (
       <div className="Admin">
         <Tabs className="z-depth-1 center">
-          <Tab active options={estiloTab} title="Videojuegos">
+          <Tab active title="Videojuegos">
             <Juegos />
           </Tab>
-          <Tab options={estiloTab} title="Contraseñas">
+          <Tab title="Contraseñas">
             <Contrasenias />
           </Tab>
         </Tabs>
@@ -19,10 +19,3 @@ export default class _ extends Component {
     );
   }
 }
-
-const estiloTab = {
-  duration: 300,
-  onShow: null,
-  responsiveThreshold: Infinity,
-  swipeable: false,
-};

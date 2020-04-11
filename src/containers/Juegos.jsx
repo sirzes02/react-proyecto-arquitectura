@@ -109,9 +109,9 @@ export default class _ extends Component {
               <li>
                 <TextInput
                   id="textInput_1_juegos"
-                  label="Titulo"
                   name="title"
                   type="text"
+                  label="Titulo"
                   value={this.state.title}
                   onChange={this.handleChange}
                   required
@@ -120,8 +120,8 @@ export default class _ extends Component {
               </li>
               <li>
                 <Select
-                  name="genre"
                   id="select_1_juegos"
+                  name="genre"
                   label="Genero"
                   value={this.state.genre}
                   onChange={this.handleChange}
@@ -136,9 +136,8 @@ export default class _ extends Component {
               </li>
               <li>
                 <Select
-                  name="clasification"
                   id="select_2_juegos"
-                  options={estiloSelect}
+                  name="clasification"
                   label="Clasificación"
                   value={this.state.clasification}
                   onChange={this.handleChange}
@@ -157,9 +156,9 @@ export default class _ extends Component {
                 <p style={{ color: "purple" }}>Año de salida</p>
                 <Range
                   id="range_1_juegos"
+                  name="year"
                   max="2020"
                   min="1980"
-                  name="year"
                   value={this.state.year}
                   onChange={this.handleChange}
                 />
@@ -168,7 +167,6 @@ export default class _ extends Component {
                 <Select
                   id="select_3_juegos"
                   name="hardware"
-                  options={estiloSelect}
                   label="Dispositivo"
                   value={this.state.hardware}
                   onChange={this.handleChange}
@@ -182,7 +180,6 @@ export default class _ extends Component {
                 <Select
                   id="select_4_juegos"
                   name="requirements"
-                  options={estiloSelect}
                   label="Requisitos"
                   value={this.state.requirements}
                   onChange={this.handleChange}
@@ -196,8 +193,8 @@ export default class _ extends Component {
               <li>
                 <TextInput
                   id="textinpu_2_juegos"
-                  label="Descripción"
                   name="description"
+                  label="Descripción"
                   value={this.state.description}
                   onChange={this.handleChange}
                   xl={12}
@@ -205,7 +202,6 @@ export default class _ extends Component {
               </li>
               <li style={{ paddingTop: 180 }}>
                 <Button
-                  node="button"
                   type="submit"
                   waves="light"
                   className="purple darken-3"
@@ -215,11 +211,10 @@ export default class _ extends Component {
                   <Icon right>send</Icon>
                 </Button>
                 <Button
-                  node="button"
                   type="reset"
-                  tooltip="Limpiar los campos"
                   waves="light"
                   className="red darken-3"
+                  tooltip="Limpiar los campos"
                   style={{ float: "right" }}
                   onClick={() =>
                     this.setState({
@@ -279,7 +274,6 @@ export default class _ extends Component {
                     <td>
                       <Button
                         small
-                        node="button"
                         waves="light"
                         className="red darken-3"
                         onClick={() => this.eliminarJuego(juego._id)}
@@ -288,7 +282,6 @@ export default class _ extends Component {
                       </Button>
                       <Button
                         small
-                        node="button"
                         waves="light"
                         className="pink lighten-3"
                         onClick={() => {
@@ -317,22 +310,3 @@ export default class _ extends Component {
     );
   }
 }
-
-const estiloSelect = {
-  classes: "",
-  dropdownOptions: {
-    alignment: "left",
-    autoTrigger: true,
-    closeOnClick: true,
-    constrainWidth: true,
-    container: null,
-    coverTrigger: true,
-    hover: false,
-    inDuration: 150,
-    onCloseEnd: null,
-    onCloseStart: null,
-    onOpenEnd: null,
-    onOpenStart: null,
-    outDuration: 250,
-  },
-};
