@@ -39,7 +39,7 @@ export default class _ extends Component {
     })
       .then((res) => res.json())
       .then(() => {
-        M.toast({ html: "Nuevo password almacenado" });
+        M.toast({ html: "Nuevo contraseña almacenada" });
         this.listaPassword();
       })
       .catch((err) => console.error(err));
@@ -59,8 +59,8 @@ export default class _ extends Component {
       },
     })
       .then((res) => res.json())
-      .then((data) => {
-        M.toast({ html: "password eliminado" });
+      .then(() => {
+        M.toast({ html: "Contraseña eliminada" });
         this.listaPassword();
       });
   }
@@ -73,7 +73,7 @@ export default class _ extends Component {
             <ul className="container">
               <li>
                 <TextInput
-                  id="2_"
+                  id="textinput_1_contrasenia"
                   label="Contraseña"
                   name="password"
                   type="text"

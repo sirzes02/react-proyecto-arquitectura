@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import M from "materialize-css";
-import fondo from "../assets/fondo.jpg";
 import {
   Select,
   TextInput,
@@ -10,6 +8,8 @@ import {
   NavItem,
 } from "react-materialize";
 import { Link } from "react-router-dom";
+import M from "materialize-css";
+import fondo from "../assets/fondo.jpg";
 import "../css/Header.css";
 
 export default class _ extends Component {
@@ -68,9 +68,9 @@ export default class _ extends Component {
               <div className="background">
                 <img src={fondo} alt="Fondo" />
               </div>
-              <br />
-              <br />
-              <span className="black-text name">Usuario de pruebas</span>
+              <span style={{ paddingTop: 90 }} className="black-text name">
+                Usuario de pruebas
+              </span>
               <span className="black-text email">
                 usuario_de_pruebas@gmail.com
               </span>
@@ -79,118 +79,100 @@ export default class _ extends Component {
           <li>
             <div className="divider"></div>
           </li>
-          <li>
-            <div className="container">
-              <div className="input-field">
-                <TextInput
-                  label="Nombre"
-                  name="nombre"
-                  type="text"
-                  value={this.state.nombre}
-                  onChange={this.handleChange}
-                />
-              </div>
-            </div>
-          </li>
-          <li>
-            <div className="container">
-              <div className="input-field">
-                <Select
-                  multiple={false}
-                  value={this.state.genero}
-                  onChange={this.handleChange}
-                  name="genero"
-                  label="Genero"
-                >
-                  <option defaultValue="">-</option>
-                  <option value="1">Accion</option>
-                  <option value="2">Aventura</option>
-                  <option value="3">Carreras</option>
-                  <option value="4">Deportes</option>
-                  <option value="5">Rol</option>
-                </Select>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div className="container">
-              <div className="input-field">
-                <Select
-                  name="clasificacion"
-                  multiple={false}
-                  onChange={this.handleChange}
-                  options={estiloSelect}
-                  value={this.state.clasificacion}
-                  label="Clasificación"
-                >
-                  <option defaultValue="">-</option>
-                  <option value="1">EC</option>
-                  <option value="2">E</option>
-                  <option value="3">E+10</option>
-                  <option value="4">T</option>
-                  <option value="5">M</option>
-                  <option value="6">AO</option>
-                  <option value="7">RP</option>
-                </Select>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div className="container">
-              <div className="input-field">
-                <TextInput
-                  label="Año de salida"
-                  name="anio"
-                  type="number"
-                  min="1940"
-                  max="2020"
-                  maxLength="4"
-                  minLength="4"
-                  value={this.state.anio}
-                  onChange={this.handleChange}
-                />
-              </div>
-            </div>
-          </li>
-          <li>
-            <div className="container">
-              <div className="input-field">
-                <Select
-                  name="dispositivo"
-                  multiple={false}
-                  onChange={this.handleChange}
-                  options={estiloSelect}
-                  value={this.state.dispositivo}
-                  label="Dispositivo"
-                >
-                  <option defaultValue="">-</option>
-                  <option value="1">Celular</option>
-                  <option value="2">Computadora</option>
-                </Select>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div className="container">
-              <div className="input-field">
-                <Select
-                  name="requisitos"
-                  multiple={false}
-                  onChange={this.handleChange}
-                  options={estiloSelect}
-                  value={this.state.requisitos}
-                  label="Requisitos"
-                >
-                  <option defaultValue="">-</option>
-                  <option value="1">Altos</option>
-                  <option value="2">Medios</option>
-                  <option value="2">Bajos</option>
-                </Select>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div className="container">
+          <div className="container">
+            <li>
+              <TextInput
+                id="textinput_1_header"
+                label="Nombre"
+                name="nombre"
+                type="text"
+                value={this.state.nombre}
+                onChange={this.handleChange}
+              />
+            </li>
+            <li>
+              <Select
+                id="select_1_header"
+                multiple={false}
+                value={this.state.genero}
+                onChange={this.handleChange}
+                name="genero"
+                label="Genero"
+              >
+                <option defaultValue="">-</option>
+                <option value="1">Accion</option>
+                <option value="2">Aventura</option>
+                <option value="3">Carreras</option>
+                <option value="4">Deportes</option>
+                <option value="5">Rol</option>
+              </Select>
+            </li>
+            <li>
+              <Select
+                id="select_2_header"
+                name="clasificacion"
+                multiple={false}
+                onChange={this.handleChange}
+                options={estiloSelect}
+                value={this.state.clasificacion}
+                label="Clasificación"
+              >
+                <option defaultValue="">-</option>
+                <option value="1">EC</option>
+                <option value="2">E</option>
+                <option value="3">E+10</option>
+                <option value="4">T</option>
+                <option value="5">M</option>
+                <option value="6">AO</option>
+                <option value="7">RP</option>
+              </Select>
+            </li>
+            <li>
+              <TextInput
+                id="textinput_2_header"
+                label="Año de salida"
+                name="anio"
+                type="number"
+                min="1940"
+                max="2020"
+                maxLength="4"
+                minLength="4"
+                value={this.state.anio}
+                onChange={this.handleChange}
+              />
+            </li>
+            <li>
+              <Select
+                id="select_3_header"
+                name="dispositivo"
+                multiple={false}
+                onChange={this.handleChange}
+                options={estiloSelect}
+                value={this.state.dispositivo}
+                label="Dispositivo"
+              >
+                <option defaultValue="">-</option>
+                <option value="1">Celular</option>
+                <option value="2">Computadora</option>
+              </Select>
+            </li>
+            <li>
+              <Select
+                id="select_4_header"
+                name="requisitos"
+                multiple={false}
+                onChange={this.handleChange}
+                options={estiloSelect}
+                value={this.state.requisitos}
+                label="Requisitos"
+              >
+                <option defaultValue="">-</option>
+                <option value="1">Altos</option>
+                <option value="2">Medios</option>
+                <option value="2">Bajos</option>
+              </Select>
+            </li>
+            <li>
               <Button
                 node="button"
                 type="submit"
@@ -201,12 +183,10 @@ export default class _ extends Component {
                 Buscar
                 <Icon right>search</Icon>
               </Button>
-            </div>
-          </li>
-          <li>
-            <br />
+            </li>
+          </div>
+          <li style={{ paddingTop: 40, paddingBottom: 40 }}>
             <div className="divider"></div>
-            <br />
           </li>
           <li>
             <div className="container">

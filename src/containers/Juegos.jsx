@@ -94,7 +94,7 @@ export default class _ extends Component {
       },
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         M.toast({ html: "Juego eliminado" });
         this.listaJuegos();
       });
@@ -108,7 +108,7 @@ export default class _ extends Component {
             <ul className="container" style={{ paddingTop: 20 }}>
               <li>
                 <TextInput
-                  id="2"
+                  id="textInput_1_juegos"
                   label="Titulo"
                   name="title"
                   type="text"
@@ -121,7 +121,7 @@ export default class _ extends Component {
               <li>
                 <Select
                   name="genre"
-                  id="gen_jue"
+                  id="select_1_juegos"
                   label="Genero"
                   value={this.state.genre}
                   onChange={this.handleChange}
@@ -137,7 +137,7 @@ export default class _ extends Component {
               <li>
                 <Select
                   name="clasification"
-                  id="cla_jue"
+                  id="select_2_juegos"
                   options={estiloSelect}
                   label="Clasificación"
                   value={this.state.clasification}
@@ -156,6 +156,7 @@ export default class _ extends Component {
               <li>
                 <p style={{ color: "purple" }}>Año de salida</p>
                 <Range
+                  id="range_1_juegos"
                   max="2020"
                   min="1980"
                   name="year"
@@ -165,7 +166,7 @@ export default class _ extends Component {
               </li>
               <li>
                 <Select
-                  id="har_jue"
+                  id="select_3_juegos"
                   name="hardware"
                   options={estiloSelect}
                   label="Dispositivo"
@@ -179,7 +180,7 @@ export default class _ extends Component {
               </li>
               <li>
                 <Select
-                  id="req_jue"
+                  id="select_4_juegos"
                   name="requirements"
                   options={estiloSelect}
                   label="Requisitos"
@@ -194,7 +195,7 @@ export default class _ extends Component {
               </li>
               <li>
                 <TextInput
-                  id="1"
+                  id="textinpu_2_juegos"
                   label="Descripción"
                   name="description"
                   value={this.state.description}
