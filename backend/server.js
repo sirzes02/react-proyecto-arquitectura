@@ -6,7 +6,8 @@ let bodyParser = require("body-parser");
 let dbConfig = require("./database/db");
 
 // Express Route
-const studentRoute = require("../backend/routes/game.routes");
+const gameRoute = require("./routes/game.routes");
+const passwordRoute = require("./routes/password.routes");
 
 // Connecting mongoDB Database
 mongoose.Promise = global.Promise;
@@ -32,7 +33,8 @@ app.use(
   })
 );
 app.use(cors());
-app.use("/games", studentRoute);
+app.use("/games", gameRoute);
+app.use("/passwords", passwordRoute);
 
 // PORT
 const port = process.env.PORT || 4000;

@@ -7,8 +7,9 @@ import {
   CollapsibleItem,
   Card,
   CardTitle,
+  Modal,
 } from "react-materialize";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import "./css/Middle.css";
 
 export default class _ extends Component {
@@ -21,17 +22,13 @@ export default class _ extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get(`http://localhost:4000/games`)
-      .then((res) => {
-        this.setState({ juegos: res.data });
-        console.log(this.state.juegos);
-      })
-      .catch((err) => console.log(err));
+    fetch(`http://localhost:4000/games/nuevosJuegos`)
+      .then((res) => res.json())
+      .then((data) => this.setState({ juegos: data }))
+      .catch((err) => console.error(err));
   }
 
   imprimir = () => {
-    this.setState({ juegos: [] });
     console.log(this.state);
   };
 
@@ -55,16 +52,19 @@ export default class _ extends Component {
             </li>
             <li>
               <div style={{ float: "left" }}>
-                <Button
-                  node="button"
-                  type="submit"
-                  waves="light"
-                  className="purple darken-3"
-                  onClick={this.imprimir}
-                >
-                  Buscar
-                  <Icon right>search</Icon>
-                </Button>
+                <Link to="/busqueda">
+                  <Button
+                    node="button"
+                    type="submit"
+                    waves="light"
+                    className="purple darken-3"
+                    onClick={this.imprimir}
+                    tooltip="Busca un videojuego con tus ideas sobre el"
+                  >
+                    Buscar
+                    <Icon right>search</Icon>
+                  </Button>
+                </Link>
               </div>
               <div style={{ float: "right" }}>
                 <Button
@@ -72,9 +72,10 @@ export default class _ extends Component {
                   type="submit"
                   waves="light"
                   className="red darken-3"
+                  tooltip="Limpiar la entrada de datos"
                   onClick={() => this.setState({ busqueda: "" })}
                 >
-                  Borrar
+                  Limpiar
                   <Icon right>delete</Icon>
                 </Button>
               </div>
@@ -83,7 +84,6 @@ export default class _ extends Component {
           </ul>
           <br />
           <br />
-          Los videojuegos mas recientes:
           <Collapsible accordion>
             {this.state.juegos.map((juego) => {
               return (
@@ -91,18 +91,64 @@ export default class _ extends Component {
                   key={juego._id}
                   expanded={false}
                   header={juego.title}
-                  icon={<Icon>filter_drama</Icon>}
+                  icon={
+                    <Icon>
+                      {iconos[Math.floor(Math.random() * iconos.length)]}
+                    </Icon>
+                  }
                   node="div"
                 >
                   <Card
                     style={{ backgroundcolor: "red" }}
-                    actions={[<div key={juego._id}>This is a link</div>]}
+                    actions={[
+                      <div key={juego._id}>
+                        <Modal
+                          actions={[
+                            <Button
+                              flat
+                              modal="close"
+                              node="button"
+                              waves="green"
+                            >
+                              Cerrar
+                            </Button>,
+                          ]}
+                          header={juego.title}
+                          options={estiloModal}
+                          trigger={
+                            <Button node="button" className="purple darken-3">
+                              Leer descripción
+                            </Button>
+                          }
+                        >
+                          <p>{juego.description}</p>
+                        </Modal>
+                      </div>,
+                    ]}
                     header={
-                      <CardTitle image="https://materializecss.com/images/sample-1.jpg" />
+                      <CardTitle
+                        image="https://materializecss.com/images/sample-1.jpg"
+                        style={{ width: 450 }}
+                      />
                     }
                     horizontal
                   >
-                    Here is the standard card with a horizontal image.
+                    <h5>{juego.title}</h5>
+                    <br />
+                    <p>
+                      <span>Genero: </span>
+                      {juego.genre}
+                      <br />
+                      <span>Clasificación: </span>
+                      {juego.clasification}
+                      <br />
+                      <span>Año de salida: </span>
+                      {juego.year}
+                      <br />
+                      <span>Requisitos: </span>
+                      {juego.requirements}
+                      <br />
+                    </p>
                   </Card>
                 </CollapsibleItem>
               );
@@ -115,3 +161,30 @@ export default class _ extends Component {
     );
   }
 }
+
+const estiloModal = {
+  dismissible: true,
+  endingTop: "10%",
+  inDuration: 250,
+  onCloseEnd: null,
+  onCloseStart: null,
+  onOpenEnd: null,
+  onOpenStart: null,
+  opacity: 0.5,
+  outDuration: 250,
+  preventScrolling: true,
+  startingTop: "4%",
+};
+
+const iconos = [
+  "directions_boat",
+  "directions_bus",
+  "directions_bike",
+  "directions_run",
+  "directions_transit",
+  "euro_symbol",
+  "flight",
+  "home",
+  "music_note",
+  "whatshot",
+];

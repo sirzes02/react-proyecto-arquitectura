@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import M from "materialize-css";
 import fondo from "../assets/fondo.jpg";
-import user from "../assets/user.png";
 import {
   Select,
   TextInput,
   Button,
   Icon,
   Navbar,
-  NavItem
+  NavItem,
 } from "react-materialize";
-import "./css/Header.css";
+import { Link } from "react-router-dom";
+import "../css/Header.css";
 
 export default class _ extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class _ extends Component {
       clasificacion: "",
       anio: "",
       dispositivo: "",
-      requisitos: ""
+      requisitos: "",
     };
   }
 
@@ -34,7 +34,7 @@ export default class _ extends Component {
     M.Sidenav.init(document.querySelector("#slide-out"), {});
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -44,9 +44,13 @@ export default class _ extends Component {
         <Navbar
           alignLinks="left"
           brand={
-            <div className="brand-logo" style={{ paddingRight: 20 }}>
+            <Link
+              to="/"
+              className="brand-logo right"
+              style={{ paddingRight: 20 }}
+            >
               Busqueda de videojuegos
-            </div>
+            </Link>
           }
           options={estiloNav}
         >
@@ -64,9 +68,7 @@ export default class _ extends Component {
               <div className="background">
                 <img src={fondo} alt="Fondo" />
               </div>
-              <div>
-                <img className="circle" src={user} alt="Usuario" />
-              </div>
+              <br />
               <br />
               <span className="black-text name">Usuario de pruebas</span>
               <span className="black-text email">
@@ -204,6 +206,14 @@ export default class _ extends Component {
           <li>
             <br />
             <div className="divider"></div>
+            <br />
+          </li>
+          <li>
+            <div className="container">
+              <span className="black-text">
+                ¿Es usted <Link to="/rutaAdministrador">Administrador</Link>?
+              </span>
+            </div>
           </li>
         </ul>
       </div>
@@ -226,8 +236,8 @@ const estiloSelect = {
     onCloseStart: null,
     onOpenEnd: null,
     onOpenStart: null,
-    outDuration: 250
-  }
+    outDuration: 250,
+  },
 };
 
 const estiloNav = {
@@ -239,5 +249,5 @@ const estiloNav = {
   onOpenEnd: null,
   onOpenStart: null,
   outDuration: 200,
-  preventScrolling: true
+  preventScrolling: true,
 };
