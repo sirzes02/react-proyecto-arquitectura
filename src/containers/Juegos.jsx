@@ -6,7 +6,6 @@ import {
   Button,
   Icon,
   Table,
-  Modal,
 } from "react-materialize";
 import M from "materialize-css";
 
@@ -14,6 +13,7 @@ export default class _ extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      _id: "",
       title: "",
       genre: "1",
       clasification: "1",
@@ -42,21 +42,63 @@ export default class _ extends Component {
 
   aniadirJuego = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:4000/games/`, {
-      method: "POST",
-      body: JSON.stringify(this.state),
+
+    if (!this.state._id)
+      fetch(`http://localhost:4000/games/`, {
+        method: "POST",
+        body: JSON.stringify(this.state),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then(() => {
+          M.toast({ html: "Nuevo juego almacenado" });
+          this.listaJuegos();
+        })
+        .catch((err) => console.error(err));
+    else
+      fetch(`http://localhost:4000/games/${this.state._id}`, {
+        method: "PUT",
+        body: JSON.stringify(this.state),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          M.toast({ html: "Juego actualizado" });
+          this.listaJuegos();
+        });
+
+    this.setState({
+      _id: "",
+      title: "",
+      genre: "1",
+      clasification: "1",
+      year: 2000,
+      hardware: "1",
+      requirements: "1",
+      description: "",
+    });
+  };
+
+  eliminarJuego(id) {
+    fetch(`http://localhost:4000/games/${id}`, {
+      method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
-      .then(() => {
-        M.toast({ html: "Nuevo juego almacenado" });
+      .then((data) => {
+        M.toast({ html: "Juego eliminado" });
         this.listaJuegos();
-      })
-      .catch((err) => console.error(err));
-  };
+      });
+  }
 
   render() {
     return (
@@ -85,7 +127,7 @@ export default class _ extends Component {
                   onChange={this.handleChange}
                   xl={6}
                 >
-                  <option defaultValue="1">Accion</option>
+                  <option value="1">Accion</option>
                   <option value="2">Aventura</option>
                   <option value="3">Carreras</option>
                   <option value="4">Deportes</option>
@@ -102,7 +144,7 @@ export default class _ extends Component {
                   onChange={this.handleChange}
                   xl={12}
                 >
-                  <option defaultValue="1">EC</option>
+                  <option value="1">EC</option>
                   <option value="2">E</option>
                   <option value="3">E+10</option>
                   <option value="4">T</option>
@@ -131,11 +173,25 @@ export default class _ extends Component {
                   onChange={this.handleChange}
                   xl={6}
                 >
-                  <option defaultValue="1">Celular</option>
+                  <option value="1">Celular</option>
                   <option value="2">Computadora</option>
                 </Select>
               </li>
-              <li></li>
+              <li>
+                <Select
+                  id="req_jue"
+                  name="requirements"
+                  options={estiloSelect}
+                  label="Requisitos"
+                  value={this.state.requirements}
+                  onChange={this.handleChange}
+                  xl={6}
+                >
+                  <option value="1">Altos</option>
+                  <option value="2">Medios</option>
+                  <option value="3">Bajos</option>
+                </Select>
+              </li>
               <li>
                 <TextInput
                   id="1"
@@ -152,6 +208,7 @@ export default class _ extends Component {
                   type="submit"
                   waves="light"
                   className="purple darken-3"
+                  tooltip="Enviar los datos"
                 >
                   Enviar
                   <Icon right>send</Icon>
@@ -159,11 +216,13 @@ export default class _ extends Component {
                 <Button
                   node="button"
                   type="reset"
+                  tooltip="Limpiar los campos"
                   waves="light"
                   className="red darken-3"
                   style={{ float: "right" }}
                   onClick={() =>
                     this.setState({
+                      _id: "",
                       title: "",
                       genre: "1",
                       clasification: "1",
@@ -196,7 +255,7 @@ export default class _ extends Component {
                   Año
                 </th>
                 <th className="center" data-field="hardwares">
-                  hardwares
+                  hardward
                 </th>
                 <th className="center" data-field="requerimientos">
                   Requerimientos
@@ -215,34 +274,14 @@ export default class _ extends Component {
                     <td className="center">{juego.year}</td>
                     <td className="center">{juego.hardware}</td>
                     <td className="center">{juego.requirements}</td>
-                    <td>
-                      <Modal
-                        actions={[
-                          <Button modal="close" node="button" waves="light">
-                            Cerrar
-                          </Button>,
-                        ]}
-                        header={`Descripción de: ${juego.title}`}
-                        options={estiloModal}
-                        trigger={
-                          <Button
-                            node="button"
-                            waves="light"
-                            className="yellow darken-3"
-                          >
-                            Leer
-                          </Button>
-                        }
-                      >
-                        <p text="HOLA">{juego.description}</p>
-                      </Modal>
-                    </td>
+                    <td>{juego.description}</td>
                     <td>
                       <Button
                         small
                         node="button"
                         waves="light"
                         className="red darken-3"
+                        onClick={() => this.eliminarJuego(juego._id)}
                       >
                         <Icon>delete</Icon>
                       </Button>
@@ -251,6 +290,18 @@ export default class _ extends Component {
                         node="button"
                         waves="light"
                         className="pink lighten-3"
+                        onClick={() => {
+                          this.setState({
+                            _id: juego._id,
+                            title: juego.title,
+                            genre: juego.genre,
+                            clasification: juego.clasification,
+                            year: juego.year,
+                            hardware: juego.hardware,
+                            requirements: juego.requirements,
+                            description: juego.description,
+                          });
+                        }}
                       >
                         <Icon>edit</Icon>
                       </Button>

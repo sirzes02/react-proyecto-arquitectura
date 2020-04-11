@@ -7,6 +7,7 @@ import {
   CollapsibleItem,
   Card,
   CardTitle,
+  Modal,
 } from "react-materialize";
 import { Link } from "react-router-dom";
 import "./css/Middle.css";
@@ -100,16 +101,54 @@ export default class _ extends Component {
                   <Card
                     style={{ backgroundcolor: "red" }}
                     actions={[
-                      <div key={juego._id}>Año de salida: {juego.year}</div>,
+                      <div key={juego._id}>
+                        <Modal
+                          actions={[
+                            <Button
+                              flat
+                              modal="close"
+                              node="button"
+                              waves="green"
+                            >
+                              Cerrar
+                            </Button>,
+                          ]}
+                          header={juego.title}
+                          options={estiloModal}
+                          trigger={
+                            <Button node="button" className="purple darken-3">
+                              Leer descripción
+                            </Button>
+                          }
+                        >
+                          <p>{juego.description}</p>
+                        </Modal>
+                      </div>,
                     ]}
                     header={
-                      <CardTitle image="https://materializecss.com/images/sample-1.jpg" />
+                      <CardTitle
+                        image="https://materializecss.com/images/sample-1.jpg"
+                        style={{ width: 450 }}
+                      />
                     }
                     horizontal
                   >
-                    <h5>Descripción del videojuego:</h5>
+                    <h5>{juego.title}</h5>
                     <br />
-                    {juego.description}
+                    <p>
+                      <span>Genero: </span>
+                      {juego.genre}
+                      <br />
+                      <span>Clasificación: </span>
+                      {juego.clasification}
+                      <br />
+                      <span>Año de salida: </span>
+                      {juego.year}
+                      <br />
+                      <span>Requisitos: </span>
+                      {juego.requirements}
+                      <br />
+                    </p>
                   </Card>
                 </CollapsibleItem>
               );
@@ -122,6 +161,20 @@ export default class _ extends Component {
     );
   }
 }
+
+const estiloModal = {
+  dismissible: true,
+  endingTop: "10%",
+  inDuration: 250,
+  onCloseEnd: null,
+  onCloseStart: null,
+  onOpenEnd: null,
+  onOpenStart: null,
+  opacity: 0.5,
+  outDuration: 250,
+  preventScrolling: true,
+  startingTop: "4%",
+};
 
 const iconos = [
   "directions_boat",
