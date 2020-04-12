@@ -122,9 +122,9 @@ export default class _ extends Component {
           <Table hoverable responsive>
             <thead>
               <tr>
-                <th data-field="id">Id</th>
-                <th data-field="titulo">Contraseña</th>
-                <th data-field="botones"></th>
+                <th>Id</th>
+                <th>Contraseña</th>
+                <th />
               </tr>
             </thead>
             <tbody>

@@ -240,14 +240,14 @@ export default class _ extends Component {
           <Table hoverable responsive>
             <thead>
               <tr>
-                <th data-field="titulo">Titulo</th>
-                <th data-field="genre">Genero</th>
-                <th data-field="clasificación">Clasificación</th>
-                <th data-field="year">Año</th>
-                <th data-field="hardwares">hardward</th>
-                <th data-field="requerimientos">Requerimientos</th>
-                <th data-field="description">Descripción</th>
-                <th data-field="botones"></th>
+                <th>Titulo</th>
+                <th>Genero</th>
+                <th>Clasificación</th>
+                <th>Año</th>
+                <th>hardward</th>
+                <th>Requerimientos</th>
+                <th>Descripción</th>
+                <th />
               </tr>
             </thead>
             <tbody>

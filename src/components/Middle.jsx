@@ -6,7 +6,7 @@ import {
   Collapsible,
   CollapsibleItem,
   Card,
-  CardTitle,
+  MediaBox,
   Modal,
 } from "react-materialize";
 import { Link } from "react-router-dom";
@@ -18,19 +18,21 @@ export default class _ extends Component {
     this.state = {
       busqueda: "",
       juegos: [],
-      update: true,
     };
   }
 
   componentDidMount() {
     fetch(`http://localhost:4000/games/nuevosJuegos`)
       .then((res) => res.json())
-      .then((data) => this.setState({ juegos: data, update: false }))
+      .then((data) => this.setState({ juegos: data }))
       .catch((err) => console.error(err));
   }
 
   imprimir = () => {
-    console.log(this.state);
+    this.setState({
+      juegos: [],
+      renderer: true,
+    });
   };
 
   render() {
@@ -85,13 +87,13 @@ export default class _ extends Component {
                       {iconos[Math.floor(Math.random() * iconos.length)]}
                     </Icon>
                   }
-                  node="div"
                 >
                   <Card
                     style={{ backgroundcolor: "red" }}
                     actions={[
                       <div key={juego._id}>
                         <Modal
+                          id={juego._id}
                           actions={[
                             <Button
                               flat
@@ -104,7 +106,11 @@ export default class _ extends Component {
                           ]}
                           header={juego.title}
                           trigger={
-                            <Button node="button" className="purple darken-3">
+                            <Button
+                              node="button"
+                              className="purple darken-3"
+                              id={juego._id}
+                            >
                               Leer descripción
                             </Button>
                           }
@@ -114,10 +120,13 @@ export default class _ extends Component {
                       </div>,
                     ]}
                     header={
-                      <CardTitle
-                        image="https://materializecss.com/images/sample-1.jpg"
-                        style={{ width: 450 }}
-                      />
+                      <MediaBox id={juego._id}>
+                        <img
+                          alt="Representación de juego"
+                          src="https://materializecss.com/images/sample-1.jpg"
+                          width="450"
+                        />
+                      </MediaBox>
                     }
                     horizontal
                   >
