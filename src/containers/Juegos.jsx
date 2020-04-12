@@ -237,25 +237,15 @@ export default class _ extends Component {
           </form>
         </div>
         <div style={{ paddingTop: 40 }} className="container">
-          <Table>
+          <Table hoverable responsive>
             <thead>
               <tr>
                 <th data-field="titulo">Titulo</th>
-                <th className="center" data-field="genre">
-                  Genero
-                </th>
-                <th className="center" data-field="clasificación">
-                  Clasificación
-                </th>
-                <th className="center" data-field="year">
-                  Año
-                </th>
-                <th className="center" data-field="hardwares">
-                  hardward
-                </th>
-                <th className="center" data-field="requerimientos">
-                  Requerimientos
-                </th>
+                <th data-field="genre">Genero</th>
+                <th data-field="clasificación">Clasificación</th>
+                <th data-field="year">Año</th>
+                <th data-field="hardwares">hardward</th>
+                <th data-field="requerimientos">Requerimientos</th>
                 <th data-field="description">Descripción</th>
                 <th data-field="botones"></th>
               </tr>
@@ -265,11 +255,13 @@ export default class _ extends Component {
                 return (
                   <tr key={juego._id}>
                     <td>{juego.title}</td>
-                    <td className="center">{juego.genre}</td>
-                    <td className="center">{juego.clasification}</td>
+                    <td>{genero[juego.genre]}</td>
+                    <td className="center">
+                      {clasificacion[juego.clasification]}
+                    </td>
                     <td className="center">{juego.year}</td>
-                    <td className="center">{juego.hardware}</td>
-                    <td className="center">{juego.requirements}</td>
+                    <td>{dispositivo[juego.hardware]}</td>
+                    <td>{requisitos[juego.requirements]}</td>
                     <td>{juego.description}</td>
                     <td>
                       <Button
@@ -310,3 +302,8 @@ export default class _ extends Component {
     );
   }
 }
+
+const genero = ["Accion", "Aventura", "Carreras", "Deportes", "Rol"];
+const clasificacion = ["EC", "E", "E + 10", "T", "M", "AO", "RP"];
+const dispositivo = ["Celular", "Computador"];
+const requisitos = ["Altos", "Medios", "Bajos"];

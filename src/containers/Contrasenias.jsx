@@ -25,40 +25,46 @@ export default class _ extends Component {
   aniadirpass = (e) => {
     e.preventDefault();
 
-    fetch(`http://localhost:4000/passwords/`, {
-      method: "POST",
-      body: JSON.stringify(this.state),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then(() => {
-        M.toast({ html: "Nuevo contraseña almacenada" });
-        this.listaPassword();
-      })
-      .catch((err) => console.error(err));
+    if (this.state.password.length >= 4) {
+      this.setState({ password: btoa(this.state.password) });
 
-    this.setState({
-      _id: "",
-      password: "",
-    });
+      fetch(`http://localhost:4000/passwords/`, {
+        method: "POST",
+        body: JSON.stringify(this.state),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then(() => {
+          M.toast({ html: "Nuevo contraseña almacenada" });
+          this.listaPassword();
+        })
+        .catch((err) => console.error(err));
+
+      this.setState({
+        _id: "",
+        password: "",
+      });
+    } else M.toast({ html: "La contraseña debe contener mas de 4 caracteres" });
   };
 
   eliminarpass(id) {
-    fetch(`http://localhost:4000/passwords/${id}`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then(() => {
-        M.toast({ html: "Contraseña eliminada" });
-        this.listaPassword();
-      });
+    if (this.state.passwords.length > 1)
+      fetch(`http://localhost:4000/passwords/${id}`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then(() => {
+          M.toast({ html: "Contraseña eliminada" });
+          this.listaPassword();
+        });
+    else M.toast({ html: "No puedes eliminar la ultima contraseña" });
   }
 
   render() {
@@ -72,7 +78,7 @@ export default class _ extends Component {
                   id="textinput_1_contrasenia"
                   label="Contraseña"
                   name="password"
-                  type="text"
+                  type="password"
                   value={this.state.password}
                   onChange={(e) =>
                     this.setState({ [e.target.name]: e.target.value })
@@ -113,7 +119,7 @@ export default class _ extends Component {
           </form>
         </div>
         <div style={{ paddingTop: 30 }} className="container">
-          <Table>
+          <Table hoverable responsive>
             <thead>
               <tr>
                 <th data-field="id">Id</th>
@@ -135,6 +141,9 @@ export default class _ extends Component {
                         onClick={() => this.eliminarpass(password._id)}
                       >
                         <Icon>delete</Icon>
+                      </Button>
+                      <Button small waves="light" className="yellow darken-3">
+                        <Icon>remove_red_eye</Icon>
                       </Button>
                     </td>
                   </tr>

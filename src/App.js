@@ -12,10 +12,14 @@ import img from "./assets/back.jpg";
 export default class _ extends Component {
   constructor(props) {
     super(props);
-    this.state = { admin: true };
+    this.state = { admin: localStorage.getItem("admin") };
   }
 
-  actualizarAdmin = () => {
+  toTrue = () => {
+    this.setState({ admin: true });
+  };
+
+  toFalse = () => {
     this.setState({ admin: true });
   };
 
@@ -28,7 +32,7 @@ export default class _ extends Component {
           <Switch>
             <Route path="/busqueda" component={Busqueda} />
             <Route path="/rutaAdministrador">
-              <Administrador actualizar={this.actualizarAdmin} />
+              <Administrador toTrue={this.toTrue} toFalse={this.toFalse} />
             </Route>
             {this.state.admin && <Route path="/admin" component={Admin} />}
             <Route path="/" exact component={Middle} />

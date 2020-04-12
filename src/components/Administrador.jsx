@@ -12,7 +12,8 @@ export default class _ extends Component {
   }
 
   componentDidMount() {
-    //if (localStorage.getItem("admin")) this.props.actualizar();
+    if (localStorage.getItem("admin")) this.props.toTrue();
+    else this.props.toFalse();
   }
 
   login = (e) => {
@@ -22,7 +23,7 @@ export default class _ extends Component {
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {
-          this.props.actualizar();
+          this.props.toTrue();
           this.setState({ admin: true });
           localStorage.setItem("admin", true);
         } else {
@@ -34,7 +35,7 @@ export default class _ extends Component {
   };
 
   render() {
-    if (this.state.admin /*|| localStorage.getItem("admin")*/)
+    if (this.state.admin || localStorage.getItem("admin"))
       return <Redirect to="/admin" />;
     return (
       <div className="Administrador container" style={{ paddingBottom: 30 }}>
@@ -63,5 +64,6 @@ export default class _ extends Component {
 }
 
 _.propTypes = {
-  actualizar: PropTypes.func.isRequired,
+  toTrue: PropTypes.func.isRequired,
+  toFalse: PropTypes.func.isRequired,
 };

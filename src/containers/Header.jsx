@@ -27,7 +27,6 @@ export default class _ extends Component {
 
   imprimir = () => {
     M.toast({ html: "I am a toast!" });
-    console.log(this.state);
   };
 
   componentDidMount() {
@@ -162,17 +161,39 @@ export default class _ extends Component {
                 <option value="2">Bajos</option>
               </Select>
             </li>
-            <li className="center">
-              <Button
-                type="submit"
-                waves="light"
-                className="purple darken-3"
-                onClick={this.imprimir}
-              >
-                Buscar
-                <Icon right>search</Icon>
-              </Button>
-            </li>
+            <div className="center" style={{ paddingTop: 20 }}>
+              <li>
+                <Button
+                  waves="light"
+                  className="purple darken-3"
+                  tooltip="Buscar segun los datos"
+                  onClick={this.imprimir}
+                >
+                  Buscar
+                  <Icon right>search</Icon>
+                </Button>
+              </li>
+              <li>
+                <Button
+                  waves="light"
+                  className="red darken-3"
+                  tooltip="Limpiar los campos"
+                  onClick={() =>
+                    this.setState({
+                      nombre: "",
+                      genero: "",
+                      clasificacion: "",
+                      anio: "",
+                      dispositivo: "",
+                      requisitos: "",
+                    })
+                  }
+                >
+                  Limpiar
+                  <Icon right>delete</Icon>
+                </Button>
+              </li>
+            </div>
           </div>
           <li style={{ paddingTop: 40, paddingBottom: 40 }}>
             <div className="divider" />
