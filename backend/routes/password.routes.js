@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const { password } = req.body;
   const newPass = new Password({
-    password,
+    password
   });
   await newPass.save();
   res.json({ status: "Password Saved" });

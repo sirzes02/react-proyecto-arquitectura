@@ -7,7 +7,7 @@ export default class _ extends Component {
     super(props);
     this.state = {
       password: "",
-      passwords: [],
+      passwords: []
     };
   }
 
@@ -17,12 +17,12 @@ export default class _ extends Component {
 
   listaPassword = () => {
     fetch(`http://localhost:4000/passwords/`)
-      .then((res) => res.json())
-      .then((data) => this.setState({ passwords: data }))
-      .catch((err) => console.error(err));
+      .then(res => res.json())
+      .then(data => this.setState({ passwords: data }))
+      .catch(err => console.error(err));
   };
 
-  aniadirpass = (e) => {
+  aniadirpass = e => {
     e.preventDefault();
 
     if (this.state.password.length >= 4) {
@@ -33,19 +33,19 @@ export default class _ extends Component {
         body: JSON.stringify(this.state),
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       })
-        .then((res) => res.json())
+        .then(res => res.json())
         .then(() => {
           M.toast({ html: "Nuevo contraseña almacenada" });
           this.listaPassword();
         })
-        .catch((err) => console.error(err));
+        .catch(err => console.error(err));
 
       this.setState({
         _id: "",
-        password: "",
+        password: ""
       });
     } else M.toast({ html: "La contraseña debe contener mas de 4 caracteres" });
   };
@@ -56,10 +56,10 @@ export default class _ extends Component {
         method: "DELETE",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       })
-        .then((res) => res.json())
+        .then(res => res.json())
         .then(() => {
           M.toast({ html: "Contraseña eliminada" });
           this.listaPassword();
@@ -80,7 +80,7 @@ export default class _ extends Component {
                   name="password"
                   type="password"
                   value={this.state.password}
-                  onChange={(e) =>
+                  onChange={e =>
                     this.setState({ [e.target.name]: e.target.value })
                   }
                   required
@@ -107,7 +107,7 @@ export default class _ extends Component {
                   style={{ float: "right" }}
                   onClick={() =>
                     this.setState({
-                      password: "",
+                      password: ""
                     })
                   }
                 >
@@ -128,7 +128,7 @@ export default class _ extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.passwords.map((password) => {
+              {this.state.passwords.map(password => {
                 return (
                   <tr key={password._id}>
                     <td>{password._id}</td>

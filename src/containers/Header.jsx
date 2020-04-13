@@ -5,7 +5,7 @@ import {
   Button,
   Icon,
   Navbar,
-  NavItem,
+  NavItem
 } from "react-materialize";
 import { Link } from "react-router-dom";
 import M from "materialize-css";
@@ -21,7 +21,7 @@ export default class _ extends Component {
       clasificacion: "",
       anio: "",
       dispositivo: "",
-      requisitos: "",
+      requisitos: ""
     };
   }
 
@@ -33,7 +33,7 @@ export default class _ extends Component {
     M.Sidenav.init(document.querySelector("#slide-out"), {});
   }
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -185,7 +185,7 @@ export default class _ extends Component {
                       clasificacion: "",
                       anio: "",
                       dispositivo: "",
-                      requisitos: "",
+                      requisitos: ""
                     })
                   }
                 >
