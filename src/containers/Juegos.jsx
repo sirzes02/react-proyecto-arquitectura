@@ -5,7 +5,7 @@ import {
   Select,
   Button,
   Icon,
-  Table,
+  Table
 } from "react-materialize";
 import M from "materialize-css";
 
@@ -21,7 +21,7 @@ export default class _ extends Component {
       hardware: "1",
       requirements: "1",
       description: "",
-      juegos: [],
+      juegos: []
     };
   }
 
@@ -29,18 +29,18 @@ export default class _ extends Component {
     this.listaJuegos();
   }
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   listaJuegos = () => {
     fetch(`http://localhost:4000/games/`)
-      .then((res) => res.json())
-      .then((data) => this.setState({ juegos: data }))
-      .catch((err) => console.error(err));
+      .then(res => res.json())
+      .then(data => this.setState({ juegos: data }))
+      .catch(err => console.error(err));
   };
 
-  aniadirJuego = (e) => {
+  aniadirJuego = e => {
     e.preventDefault();
 
     if (!this.state._id)
@@ -49,26 +49,26 @@ export default class _ extends Component {
         body: JSON.stringify(this.state),
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       })
-        .then((res) => res.json())
+        .then(res => res.json())
         .then(() => {
           M.toast({ html: "Nuevo juego almacenado" });
           this.listaJuegos();
         })
-        .catch((err) => console.error(err));
+        .catch(err => console.error(err));
     else
       fetch(`http://localhost:4000/games/${this.state._id}`, {
         method: "PUT",
         body: JSON.stringify(this.state),
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       })
-        .then((res) => res.json())
-        .then((data) => {
+        .then(res => res.json())
+        .then(data => {
           M.toast({ html: "Juego actualizado" });
           this.listaJuegos();
         });
@@ -81,7 +81,7 @@ export default class _ extends Component {
       year: 2000,
       hardware: "1",
       requirements: "1",
-      description: "",
+      description: ""
     });
   };
 
@@ -90,10 +90,10 @@ export default class _ extends Component {
       method: "DELETE",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     })
-      .then((res) => res.json())
+      .then(res => res.json())
       .then(() => {
         M.toast({ html: "Juego eliminado" });
         this.listaJuegos();
@@ -225,7 +225,7 @@ export default class _ extends Component {
                       year: 2000,
                       hardware: "1",
                       requirements: "1",
-                      description: "",
+                      description: ""
                     })
                   }
                 >
@@ -251,7 +251,7 @@ export default class _ extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.juegos.map((juego) => {
+              {this.state.juegos.map(juego => {
                 return (
                   <tr key={juego._id}>
                     <td>{juego.title}</td>
@@ -285,7 +285,7 @@ export default class _ extends Component {
                             year: juego.year,
                             hardware: juego.hardware,
                             requirements: juego.requirements,
-                            description: juego.description,
+                            description: juego.description
                           });
                         }}
                       >

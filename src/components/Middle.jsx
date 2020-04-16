@@ -7,7 +7,7 @@ import {
   CollapsibleItem,
   Card,
   MediaBox,
-  Modal,
+  Modal
 } from "react-materialize";
 import { Link } from "react-router-dom";
 import "../css/Middle.css";
@@ -17,21 +17,21 @@ export default class _ extends Component {
     super(props);
     this.state = {
       busqueda: "",
-      juegos: [],
+      juegos: []
     };
   }
 
   componentDidMount() {
     fetch(`http://localhost:4000/games/nuevosJuegos`)
-      .then((res) => res.json())
-      .then((data) => this.setState({ juegos: data }))
-      .catch((err) => console.error(err));
+      .then(res => res.json())
+      .then(data => this.setState({ juegos: data }))
+      .catch(err => console.error(err));
   }
 
   imprimir = () => {
     this.setState({
       juegos: [],
-      renderer: true,
+      renderer: true
     });
   };
 
@@ -45,7 +45,7 @@ export default class _ extends Component {
               name="busqueda"
               label="Búsqueda de videojuegos..."
               value={this.state.busqueda}
-              onChange={(e) => this.setState({ busqueda: e.target.value })}
+              onChange={e => this.setState({ busqueda: e.target.value })}
             />
           </li>
           <li>
@@ -76,7 +76,7 @@ export default class _ extends Component {
         </ul>
         <div style={{ paddingTop: 30, paddingBottom: 30 }}>
           <Collapsible accordion>
-            {this.state.juegos.map((juego) => {
+            {this.state.juegos.map(juego => {
               return (
                 <CollapsibleItem
                   key={juego._id}
@@ -102,7 +102,7 @@ export default class _ extends Component {
                               waves="green"
                             >
                               Cerrar
-                            </Button>,
+                            </Button>
                           ]}
                           header={juego.title}
                           trigger={
@@ -117,7 +117,7 @@ export default class _ extends Component {
                         >
                           <p>{juego.description}</p>
                         </Modal>
-                      </div>,
+                      </div>
                     ]}
                     header={
                       <MediaBox id={juego._id}>
@@ -167,5 +167,5 @@ const iconos = [
   "flight",
   "home",
   "music_note",
-  "whatshot",
+  "whatshot"
 ];

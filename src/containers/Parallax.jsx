@@ -13,5 +13,5 @@ export default class _ extends Component {
 }
 
 _.propTypes = {
-  imagen: PropTypes.string.isRequired,
+  imagen: PropTypes.string.isRequired
 };
