@@ -5,7 +5,7 @@ import {
   Button,
   Icon,
   Navbar,
-  NavItem
+  NavItem,
 } from "react-materialize";
 import { Link } from "react-router-dom";
 import M from "materialize-css";
@@ -16,26 +16,21 @@ export default class _ extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      tipo: 2,
       nombre: "",
       genero: "",
       clasificacion: "",
       anio: "",
       dispositivo: "",
-      requisitos: ""
+      requisitos: "",
     };
   }
-
-  imprimir = () => {
-    M.toast({ html: "I am a toast!" });
-  };
 
   componentDidMount() {
     M.Sidenav.init(document.querySelector("#slide-out"), {});
   }
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
     return (
@@ -163,15 +158,17 @@ export default class _ extends Component {
             </li>
             <div className="center" style={{ paddingTop: 20 }}>
               <li>
-                <Button
-                  waves="light"
-                  className="purple darken-3"
-                  tooltip="Buscar segun los datos"
-                  onClick={this.imprimir}
-                >
-                  Buscar
-                  <Icon right>search</Icon>
-                </Button>
+                <Link to={{ pathname: "/busqueda", state: this.state }}>
+                  <Button
+                    waves="light"
+                    className="purple darken-3"
+                    tooltip="Buscar segun los datos"
+                    onClick={this.imprimir}
+                  >
+                    Buscar
+                    <Icon right>search</Icon>
+                  </Button>
+                </Link>
               </li>
               <li>
                 <Button
@@ -185,7 +182,7 @@ export default class _ extends Component {
                       clasificacion: "",
                       anio: "",
                       dispositivo: "",
-                      requisitos: ""
+                      requisitos: "",
                     })
                   }
                 >

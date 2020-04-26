@@ -29,16 +29,13 @@ export default class _ extends Component {
     this.listaJuegos();
   }
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-  listaJuegos = () => {
+  listaJuegos = () =>
     fetch(`http://localhost:4000/games/`)
       .then((res) => res.json())
       .then((data) => this.setState({ juegos: data }))
       .catch((err) => console.error(err));
-  };
 
   aniadirJuego = (e) => {
     e.preventDefault();
@@ -84,8 +81,8 @@ export default class _ extends Component {
     });
   };
 
-  eliminarJuego(id) {
-    fetch(`http://localhost:4000/games/${id}`, {
+  eliminarJuego = (e) =>
+    fetch(`http://localhost:4000/games/${e.target.name}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -97,7 +94,6 @@ export default class _ extends Component {
         this.listaJuegos();
       })
       .catch((err) => console.error(err));
-  }
 
   render() {
     return (
@@ -265,7 +261,8 @@ export default class _ extends Component {
                         small
                         waves="light"
                         className="red darken-3"
-                        onClick={() => this.eliminarJuego(juego._id)}
+                        name={juego._id}
+                        onClick={this.eliminarJuego}
                       >
                         <Icon>delete</Icon>
                       </Button>
