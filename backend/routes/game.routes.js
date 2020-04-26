@@ -6,7 +6,8 @@ const Game = require("../Models/Game");
 // Obtener todos los juegos
 router.get("/", async (req, res) => {
   var games = await Game.find();
-  res.json(games);
+  const rev = games.reverse();
+  res.json(rev);
 });
 
 //Obtener Los 5 ultimos juegos
@@ -14,7 +15,7 @@ router.get("/nuevosJuegos", async (req, res) => {
   let games = await Game.find();
 
   //Orden segun el anio
-  games.sort(function(a, b) {
+  games.sort(function (a, b) {
     return a.year - b.year;
   });
 
@@ -38,7 +39,7 @@ router.post("/", async (req, res) => {
     year,
     hardware,
     requirements,
-    description
+    description,
   } = req.body;
   const game = new Game({
     title,
@@ -47,7 +48,7 @@ router.post("/", async (req, res) => {
     year,
     hardware,
     requirements,
-    description
+    description,
   });
   await game.save();
   res.json({ status: "Game Saved" });
@@ -61,7 +62,7 @@ router.put("/:id", async (req, res) => {
     year,
     hardware,
     requirements,
-    description
+    description,
   } = req.body;
   const newGame = {
     title,
@@ -70,7 +71,7 @@ router.put("/:id", async (req, res) => {
     year,
     hardware,
     requirements,
-    description
+    description,
   };
   await Game.findByIdAndUpdate(req.params.id, newGame);
   res.json({ status: "Game Updated" });

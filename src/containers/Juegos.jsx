@@ -5,7 +5,7 @@ import {
   Select,
   Button,
   Icon,
-  Table
+  Table,
 } from "react-materialize";
 import M from "materialize-css";
 
@@ -21,7 +21,7 @@ export default class _ extends Component {
       hardware: "1",
       requirements: "1",
       description: "",
-      juegos: []
+      juegos: [],
     };
   }
 
@@ -29,18 +29,18 @@ export default class _ extends Component {
     this.listaJuegos();
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   listaJuegos = () => {
     fetch(`http://localhost:4000/games/`)
-      .then(res => res.json())
-      .then(data => this.setState({ juegos: data }))
-      .catch(err => console.error(err));
+      .then((res) => res.json())
+      .then((data) => this.setState({ juegos: data }))
+      .catch((err) => console.error(err));
   };
 
-  aniadirJuego = e => {
+  aniadirJuego = (e) => {
     e.preventDefault();
 
     if (!this.state._id)
@@ -49,29 +49,28 @@ export default class _ extends Component {
         body: JSON.stringify(this.state),
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       })
-        .then(res => res.json())
         .then(() => {
           M.toast({ html: "Nuevo juego almacenado" });
           this.listaJuegos();
         })
-        .catch(err => console.error(err));
+        .catch((err) => console.error(err));
     else
       fetch(`http://localhost:4000/games/${this.state._id}`, {
         method: "PUT",
         body: JSON.stringify(this.state),
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       })
-        .then(res => res.json())
-        .then(data => {
+        .then(() => {
           M.toast({ html: "Juego actualizado" });
           this.listaJuegos();
-        });
+        })
+        .catch((err) => console.error(err));
 
     this.setState({
       _id: "",
@@ -81,7 +80,7 @@ export default class _ extends Component {
       year: 2000,
       hardware: "1",
       requirements: "1",
-      description: ""
+      description: "",
     });
   };
 
@@ -90,14 +89,14 @@ export default class _ extends Component {
       method: "DELETE",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(res => res.json())
       .then(() => {
         M.toast({ html: "Juego eliminado" });
         this.listaJuegos();
-      });
+      })
+      .catch((err) => console.error(err));
   }
 
   render() {
@@ -225,7 +224,7 @@ export default class _ extends Component {
                       year: 2000,
                       hardware: "1",
                       requirements: "1",
-                      description: ""
+                      description: "",
                     })
                   }
                 >
@@ -236,7 +235,7 @@ export default class _ extends Component {
             </ul>
           </form>
         </div>
-        <div style={{ paddingTop: 40 }} className="container">
+        <div style={{ padding: 40 }}>
           <Table hoverable responsive>
             <thead>
               <tr>
@@ -244,24 +243,22 @@ export default class _ extends Component {
                 <th>Genero</th>
                 <th>Clasificación</th>
                 <th>Año</th>
-                <th>hardward</th>
+                <th>hardware</th>
                 <th>Requerimientos</th>
                 <th>Descripción</th>
                 <th />
               </tr>
             </thead>
             <tbody>
-              {this.state.juegos.map(juego => {
+              {this.state.juegos.map((juego) => {
                 return (
                   <tr key={juego._id}>
                     <td>{juego.title}</td>
-                    <td>{genero[juego.genre]}</td>
-                    <td className="center">
-                      {clasificacion[juego.clasification]}
-                    </td>
-                    <td className="center">{juego.year}</td>
-                    <td>{dispositivo[juego.hardware]}</td>
-                    <td>{requisitos[juego.requirements]}</td>
+                    <td>{genero[juego.genre - 1]}</td>
+                    <td>{clasificacion[juego.clasification - 1]}</td>
+                    <td>{juego.year}</td>
+                    <td>{dispositivo[juego.hardware - 1]}</td>
+                    <td>{requisitos[juego.requirements - 1]}</td>
                     <td>{juego.description}</td>
                     <td>
                       <Button
@@ -276,7 +273,7 @@ export default class _ extends Component {
                         small
                         waves="light"
                         className="pink lighten-3"
-                        onClick={() => {
+                        onClick={() =>
                           this.setState({
                             _id: juego._id,
                             title: juego.title,
@@ -285,9 +282,9 @@ export default class _ extends Component {
                             year: juego.year,
                             hardware: juego.hardware,
                             requirements: juego.requirements,
-                            description: juego.description
-                          });
-                        }}
+                            description: juego.description,
+                          })
+                        }
                       >
                         <Icon>edit</Icon>
                       </Button>

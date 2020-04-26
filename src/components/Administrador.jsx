@@ -16,12 +16,12 @@ export default class _ extends Component {
     else this.props.toFalse();
   }
 
-  login = e => {
+  login = (e) => {
     e.preventDefault();
 
     fetch(`http://localhost:4000/passwords/${this.state.password}`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.status) {
           this.props.toTrue();
           this.setState({ admin: true });
@@ -31,7 +31,7 @@ export default class _ extends Component {
           M.toast({ html: "¡Contraseña incorrecta!" });
         }
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   };
 
   render() {
@@ -45,7 +45,7 @@ export default class _ extends Component {
             label="Contraseña de ingreso"
             password
             value={this.state.password}
-            onChange={e => this.setState({ password: e.target.value })}
+            onChange={(e) => this.setState({ password: e.target.value })}
             required
           />
           <Button
@@ -65,5 +65,5 @@ export default class _ extends Component {
 
 _.propTypes = {
   toTrue: PropTypes.func.isRequired,
-  toFalse: PropTypes.func.isRequired
+  toFalse: PropTypes.func.isRequired,
 };

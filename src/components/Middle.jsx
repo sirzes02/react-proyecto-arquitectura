@@ -7,9 +7,9 @@ import {
   CollapsibleItem,
   Card,
   MediaBox,
-  Modal
 } from "react-materialize";
 import { Link } from "react-router-dom";
+import M from "materialize-css";
 import "../css/Middle.css";
 
 export default class _ extends Component {
@@ -17,22 +17,37 @@ export default class _ extends Component {
     super(props);
     this.state = {
       busqueda: "",
-      juegos: []
+      juegos: [],
+      tituloModal: "",
+      descripcionModal: "",
     };
   }
 
   componentDidMount() {
     fetch(`http://localhost:4000/games/nuevosJuegos`)
-      .then(res => res.json())
-      .then(data => this.setState({ juegos: data }))
-      .catch(err => console.error(err));
+      .then((res) => res.json())
+      .then((data) => this.setState({ juegos: data }))
+      .catch((err) => console.error(err));
+
+    M.Modal.init(this.Modal, {
+      inDuration: 250,
+      outDuration: 250,
+      opacity: 0.5,
+      dismissible: true,
+      startingTop: "4%",
+      endingTop: "10%",
+    });
   }
 
-  imprimir = () => {
-    this.setState({
-      juegos: [],
-      renderer: true
-    });
+  cambioModal = (e) => {
+    for (let i = 0; i < this.state.juegos.length; i++)
+      if (this.state.juegos[i]._id === e.target.name) {
+        this.setState({
+          tituloModal: this.state.juegos[i].title,
+          descripcionModal: this.state.juegos[i].description,
+        });
+        break;
+      }
   };
 
   render() {
@@ -45,16 +60,20 @@ export default class _ extends Component {
               name="busqueda"
               label="Búsqueda de videojuegos..."
               value={this.state.busqueda}
-              onChange={e => this.setState({ busqueda: e.target.value })}
+              onChange={(e) => this.setState({ busqueda: e.target.value })}
             />
           </li>
           <li>
-            <Link to="/busqueda">
+            <Link
+              to={{
+                pathname: "/busqueda",
+                state: { busqueda: this.state.busqueda, tipo: 1 },
+              }}
+            >
               <Button
                 type="submit"
                 waves="light"
                 className="purple darken-3"
-                onClick={this.imprimir}
                 tooltip="Busca un videojuego con tus ideas sobre el"
               >
                 Buscar
@@ -76,7 +95,7 @@ export default class _ extends Component {
         </ul>
         <div style={{ paddingTop: 30, paddingBottom: 30 }}>
           <Collapsible accordion>
-            {this.state.juegos.map(juego => {
+            {this.state.juegos.map((juego) => {
               return (
                 <CollapsibleItem
                   key={juego._id}
@@ -92,32 +111,16 @@ export default class _ extends Component {
                     style={{ backgroundcolor: "red" }}
                     actions={[
                       <div key={juego._id}>
-                        <Modal
-                          id={juego._id}
-                          actions={[
-                            <Button
-                              flat
-                              modal="close"
-                              node="button"
-                              waves="green"
-                            >
-                              Cerrar
-                            </Button>
-                          ]}
-                          header={juego.title}
-                          trigger={
-                            <Button
-                              node="button"
-                              className="purple darken-3"
-                              id={juego._id}
-                            >
-                              Leer descripción
-                            </Button>
-                          }
+                        <Button
+                          className="modal-trigger yellow darken-3"
+                          waves="light"
+                          data-target="modal1"
+                          name={juego._id}
+                          onClick={this.cambioModal}
                         >
-                          <p>{juego.description}</p>
-                        </Modal>
-                      </div>
+                          Descripción
+                        </Button>
+                      </div>,
                     ]}
                     header={
                       <MediaBox id={juego._id}>
@@ -134,16 +137,16 @@ export default class _ extends Component {
 
                     <p style={{ paddingTop: 10 }}>
                       <span>Genero: </span>
-                      {juego.genre}
+                      {genero[juego.genre - 1]}
                       <br />
                       <span>Clasificación: </span>
-                      {juego.clasification}
+                      {clasificacion[juego.clasification - 1]}
                       <br />
                       <span>Año de salida: </span>
                       {juego.year}
                       <br />
                       <span>Requisitos: </span>
-                      {juego.requirements}
+                      {requisitos[juego.requirements - 1]}
                       <br />
                     </p>
                   </Card>
@@ -151,6 +154,23 @@ export default class _ extends Component {
               );
             })}
           </Collapsible>
+        </div>
+        <div
+          ref={(Modal) => {
+            this.Modal = Modal;
+          }}
+          id="modal1"
+          className="modal"
+        >
+          <div className="modal-content">
+            <h4>{this.state.tituloModal}</h4>
+            <p>{this.state.descripcionModal}</p>
+          </div>
+          <div className="modal-footer">
+            <Button className="modal-close" waves="light">
+              Cerrar
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -167,5 +187,9 @@ const iconos = [
   "flight",
   "home",
   "music_note",
-  "whatshot"
+  "whatshot",
 ];
+
+const genero = ["Accion", "Aventura", "Carreras", "Deportes", "Rol"];
+const clasificacion = ["EC", "E", "E + 10", "T", "M", "AO", "RP"];
+const requisitos = ["Altos", "Medios", "Bajos"];
