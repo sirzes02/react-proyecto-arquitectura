@@ -6,6 +6,7 @@ import {
   Button,
   Icon,
   Table,
+  MediaBox,
 } from "react-materialize";
 import M from "materialize-css";
 
@@ -21,6 +22,7 @@ export default class _ extends Component {
       hardware: "1",
       requirements: "1",
       description: "",
+      image: "",
       juegos: [],
       tituloModal: "",
       descripcionModal: "",
@@ -62,14 +64,25 @@ export default class _ extends Component {
   aniadirJuego = (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+
+    formData.append("title", this.state.title);
+    formData.append("genre", this.state.genre);
+    formData.append("clasification", this.state.clasification);
+    formData.append("year", this.state.year);
+    formData.append("hardware", this.state.hardware);
+    formData.append("requirements", this.state.requirements);
+    formData.append("description", this.state.description);
+    formData.append(
+      "image",
+      document.querySelector('input[type="file"]').files[0]
+    );
+
     if (!this.state._id)
       fetch(`http://localhost:4000/games/`, {
+        mode: "no-cors",
         method: "POST",
-        body: JSON.stringify(this.state),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+        body: formData,
       })
         .then(() => {
           M.toast({ html: "Nuevo juego almacenado" });
@@ -78,12 +91,9 @@ export default class _ extends Component {
         .catch((err) => console.error(err));
     else
       fetch(`http://localhost:4000/games/${this.state._id}`, {
-        method: "PUT",
-        body: JSON.stringify(this.state),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+        mode: "no-cors",
+        method: "POST",
+        body: formData,
       })
         .then(() => {
           M.toast({ html: "Juego actualizado" });
@@ -100,6 +110,7 @@ export default class _ extends Component {
       hardware: "1",
       requirements: "1",
       description: "",
+      image: "",
     });
   };
 
@@ -120,8 +131,12 @@ export default class _ extends Component {
   render() {
     return (
       <div className="Juegos">
-        <div className="container z-depth-1" style={{ height: 510 }}>
-          <form onSubmit={this.aniadirJuego}>
+        <div className="container z-depth-1" style={{ height: 590 }}>
+          <form
+            onSubmit={this.aniadirJuego}
+            method="post"
+            encType="multipart/form-data"
+          >
             <ul className="container" style={{ paddingTop: 20 }}>
               <li>
                 <TextInput
@@ -209,10 +224,21 @@ export default class _ extends Component {
               </li>
               <li>
                 <TextInput
-                  id="textinpu_2_juegos"
+                  id="textinput_2_juegos"
                   name="description"
                   label="Descripción"
                   value={this.state.description}
+                  onChange={this.handleChange}
+                  xl={12}
+                />
+              </li>
+              <li>
+                <TextInput
+                  id="textinut_3_juegos"
+                  name="image"
+                  label="Imagen"
+                  type="file"
+                  value={this.state.image}
                   onChange={this.handleChange}
                   xl={12}
                 />
@@ -243,6 +269,7 @@ export default class _ extends Component {
                       hardware: "1",
                       requirements: "1",
                       description: "",
+                      image: "",
                     })
                   }
                 >
@@ -257,6 +284,7 @@ export default class _ extends Component {
           <Table hoverable responsive>
             <thead>
               <tr>
+                <th>Imagen</th>
                 <th>Titulo</th>
                 <th>Genero</th>
                 <th>Clasificación</th>
@@ -271,6 +299,29 @@ export default class _ extends Component {
               {this.state.juegos.map((juego) => {
                 return (
                   <tr key={juego._id}>
+                    <td>
+                      <MediaBox
+                        alt=""
+                        id={juego._id}
+                        options={{
+                          inDuration: 275,
+                          onCloseEnd: null,
+                          onCloseStart: null,
+                          onOpenEnd: null,
+                          onOpenStart: null,
+                          outDuration: 200,
+                        }}
+                      >
+                        <img
+                          src={
+                            juego.image == null
+                              ? `http://localhost:4000/uploads/undefined.png`
+                              : `http://localhost:4000/${juego.image}`
+                          }
+                          width="50"
+                        />
+                      </MediaBox>
+                    </td>
                     <td>{juego.title}</td>
                     <td>{genero[juego.genre - 1]}</td>
                     <td>{clasificacion[juego.clasification - 1]}</td>

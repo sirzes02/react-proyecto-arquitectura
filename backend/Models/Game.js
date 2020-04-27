@@ -9,6 +9,7 @@ const GameSchema = new Schema({
   hardware: { type: Number, required: true },
   requirements: { type: Number, required: true }, // 0 - low, 1 - medium, 2 - high
   description: { type: String, required: true },
+  image: { type: String, required: false },
 });
 
 module.exports = mongoose.model("Game", GameSchema);
