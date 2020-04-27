@@ -22,12 +22,34 @@ export default class _ extends Component {
       requirements: "1",
       description: "",
       juegos: [],
+      tituloModal: "",
+      descripcionModal: "",
     };
   }
 
   componentDidMount() {
     this.listaJuegos();
+
+    M.Modal.init(this.Modal, {
+      inDuration: 250,
+      outDuration: 250,
+      opacity: 0.5,
+      dismissible: true,
+      startingTop: "4%",
+      endingTop: "10%",
+    });
   }
+
+  cambioModal = (e) => {
+    for (let i = 0; i < this.state.juegos.length; i++)
+      if (this.state.juegos[i]._id === e.target.name) {
+        this.setState({
+          tituloModal: this.state.juegos[i].title,
+          descripcionModal: this.state.juegos[i].description,
+        });
+        break;
+      }
+  };
 
   handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
@@ -255,7 +277,17 @@ export default class _ extends Component {
                     <td>{juego.year}</td>
                     <td>{dispositivo[juego.hardware - 1]}</td>
                     <td>{requisitos[juego.requirements - 1]}</td>
-                    <td>{juego.description}</td>
+                    <td>
+                      <Button
+                        className="modal-trigger yellow darken-3"
+                        waves="light"
+                        data-target="modal1"
+                        name={juego._id}
+                        onClick={this.cambioModal}
+                      >
+                        Descripción
+                      </Button>
+                    </td>
                     <td>
                       <Button
                         small
@@ -291,6 +323,23 @@ export default class _ extends Component {
               })}
             </tbody>
           </Table>
+        </div>
+        <div
+          ref={(Modal) => {
+            this.Modal = Modal;
+          }}
+          id="modal1"
+          className="modal"
+        >
+          <div className="modal-content">
+            <h4>{this.state.tituloModal}</h4>
+            <p>{this.state.descripcionModal}</p>
+          </div>
+          <div className="modal-footer">
+            <Button className="modal-close" waves="light">
+              Cerrar
+            </Button>
+          </div>
         </div>
       </div>
     );
