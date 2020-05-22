@@ -9,6 +9,7 @@ import {
   MediaBox,
 } from "react-materialize";
 import M from "materialize-css";
+import Swal from "sweetalert2";
 
 export default class _ extends Component {
   constructor(props) {
@@ -28,6 +29,19 @@ export default class _ extends Component {
       descripcionModal: "",
     };
   }
+
+  reiniciar = () =>
+    this.setState({
+      _id: "",
+      title: "",
+      genre: "1",
+      clasification: "1",
+      year: 2000,
+      hardware: "1",
+      requirements: "1",
+      description: "",
+      image: "",
+    });
 
   componentDidMount() {
     this.listaJuegos();
@@ -85,7 +99,7 @@ export default class _ extends Component {
         body: formData,
       })
         .then(() => {
-          M.toast({ html: "Nuevo juego almacenado" });
+          Swal.fire("¡Almacenado!", "El juego ha sido almacenado.", "success");
           this.listaJuegos();
         })
         .catch((err) => console.error(err));
@@ -96,37 +110,41 @@ export default class _ extends Component {
         body: formData,
       })
         .then(() => {
-          M.toast({ html: "Juego actualizado" });
+          Swal.fire("¡Modificado!", "El juego ha sido modificado.", "success");
           this.listaJuegos();
         })
         .catch((err) => console.error(err));
 
-    this.setState({
-      _id: "",
-      title: "",
-      genre: "1",
-      clasification: "1",
-      year: 2000,
-      hardware: "1",
-      requirements: "1",
-      description: "",
-      image: "",
-    });
+    this.reiniciar();
   };
 
-  eliminarJuego = (e) =>
-    fetch(`http://localhost:4000/games/${e.target.name}`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then(() => {
-        M.toast({ html: "Juego eliminado" });
-        this.listaJuegos();
-      })
-      .catch((err) => console.error(err));
+  eliminarJuego(e) {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Se borrará totalmente el juego",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si ¡Borrarlo!",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.value) {
+        fetch(`http://localhost:4000/games/${e}`, {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then(() => {
+            Swal.fire("¡Borrado!", "El juego ha sido borrado.", "success");
+            this.listaJuegos();
+          })
+          .catch((err) => console.error(err));
+      } else Swal.fire("Cancelado", "Proceso de eliminado cancelado.", "error");
+    });
+  }
 
   render() {
     return (
@@ -259,19 +277,7 @@ export default class _ extends Component {
                   className="red darken-3"
                   tooltip="Limpiar los campos"
                   style={{ float: "right" }}
-                  onClick={() =>
-                    this.setState({
-                      _id: "",
-                      title: "",
-                      genre: "1",
-                      clasification: "1",
-                      year: 2000,
-                      hardware: "1",
-                      requirements: "1",
-                      description: "",
-                      image: "",
-                    })
-                  }
+                  onClick={this.reiniciar}
                 >
                   Limpiar
                   <Icon right>delete</Icon>
@@ -281,104 +287,93 @@ export default class _ extends Component {
           </form>
         </div>
         <div style={{ padding: 40 }}>
-          <Table hoverable responsive>
-            <thead>
-              <tr>
-                <th>Imagen</th>
-                <th>Titulo</th>
-                <th>Genero</th>
-                <th>Clasificación</th>
-                <th>Año</th>
-                <th>hardware</th>
-                <th>Requerimientos</th>
-                <th>Descripción</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.juegos.map((juego) => {
-                return (
-                  <tr key={juego._id}>
-                    <td>
-                      <MediaBox
-                        alt=""
-                        id={juego._id}
-                        options={{
-                          inDuration: 275,
-                          onCloseEnd: null,
-                          onCloseStart: null,
-                          onOpenEnd: null,
-                          onOpenStart: null,
-                          outDuration: 200,
-                        }}
-                      >
-                        <img
-                          src={
-                            juego.image == null
-                              ? `http://localhost:4000/uploads/undefined.png`
-                              : `http://localhost:4000/${juego.image}`
+          <div className="scroll">
+            <Table hoverable responsive>
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Titulo</th>
+                  <th>Genero</th>
+                  <th>Clasificación</th>
+                  <th>Año</th>
+                  <th>hardware</th>
+                  <th>Requerimientos</th>
+                  <th>Descripción</th>
+                  <th />
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.juegos.map((juego) => {
+                  return (
+                    <tr key={juego._id}>
+                      <td>
+                        <MediaBox alt="" id={juego._id}>
+                          <img
+                            src={
+                              !juego.image
+                                ? `http://localhost:4000/uploads/undefined.png`
+                                : `http://localhost:4000/${juego.image}`
+                            }
+                            width="50"
+                            alt="muestra"
+                          />
+                        </MediaBox>
+                      </td>
+                      <td>{juego.title}</td>
+                      <td>{genero[juego.genre - 1]}</td>
+                      <td>{clasificacion[juego.clasification - 1]}</td>
+                      <td>{juego.year}</td>
+                      <td>{dispositivo[juego.hardware - 1]}</td>
+                      <td>{requisitos[juego.requirements - 1]}</td>
+                      <td>
+                        <Button
+                          className="modal-trigger yellow darken-3"
+                          waves="light"
+                          data-target="modal1"
+                          name={juego._id}
+                          onClick={this.cambioModal}
+                        >
+                          Descripción
+                        </Button>
+                      </td>
+                      <td>
+                        <Button
+                          small
+                          waves="light"
+                          className="red darken-3"
+                          onClick={() => this.eliminarJuego(juego._id)}
+                        >
+                          <Icon>delete</Icon>
+                        </Button>
+                        <Button
+                          small
+                          waves="light"
+                          className="pink lighten-3"
+                          onClick={() =>
+                            this.setState({
+                              _id: juego._id,
+                              title: juego.title,
+                              genre: juego.genre,
+                              clasification: juego.clasification,
+                              year: juego.year,
+                              hardware: juego.hardware,
+                              requirements: juego.requirements,
+                              description: juego.description,
+                            })
                           }
-                          width="50"
-                        />
-                      </MediaBox>
-                    </td>
-                    <td>{juego.title}</td>
-                    <td>{genero[juego.genre - 1]}</td>
-                    <td>{clasificacion[juego.clasification - 1]}</td>
-                    <td>{juego.year}</td>
-                    <td>{dispositivo[juego.hardware - 1]}</td>
-                    <td>{requisitos[juego.requirements - 1]}</td>
-                    <td>
-                      <Button
-                        className="modal-trigger yellow darken-3"
-                        waves="light"
-                        data-target="modal1"
-                        name={juego._id}
-                        onClick={this.cambioModal}
-                      >
-                        Descripción
-                      </Button>
-                    </td>
-                    <td>
-                      <Button
-                        small
-                        waves="light"
-                        className="red darken-3"
-                        name={juego._id}
-                        onClick={this.eliminarJuego}
-                      >
-                        <Icon>delete</Icon>
-                      </Button>
-                      <Button
-                        small
-                        waves="light"
-                        className="pink lighten-3"
-                        onClick={() =>
-                          this.setState({
-                            _id: juego._id,
-                            title: juego.title,
-                            genre: juego.genre,
-                            clasification: juego.clasification,
-                            year: juego.year,
-                            hardware: juego.hardware,
-                            requirements: juego.requirements,
-                            description: juego.description,
-                          })
-                        }
-                      >
-                        <Icon>edit</Icon>
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
+                        >
+                          <Icon>edit</Icon>
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </div>
         </div>
         <div
-          ref={(Modal) => {
-            this.Modal = Modal;
-          }}
+          ref={(Modal) => (this.Modal = Modal)}
           id="modal1"
           className="modal"
         >

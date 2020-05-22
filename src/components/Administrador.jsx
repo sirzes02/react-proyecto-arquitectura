@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { TextInput, Button, Icon } from "react-materialize";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-import M from "materialize-css";
 import "../css/Administrador.css";
+import Swal from "sweetalert2";
 
 export default class _ extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ export default class _ extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem("admin")) this.props.toTrue();
+    if (localStorage.getItem("admin") !== "") this.props.toTrue();
     else this.props.toFalse();
   }
 
@@ -28,10 +28,19 @@ export default class _ extends Component {
           localStorage.setItem("admin", true);
         } else {
           this.setState({ password: "" });
-          M.toast({ html: "¡Contraseña incorrecta!" });
+          Swal.fire("¡Error!", "La contraseña es incorrecta.", "error");
         }
       })
       .catch((err) => console.error(err));
+    /*
+    fetch(`http://localhost:4000/passwords/`, {
+      method: "POST",
+      body: JSON.stringify(this.state),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).catch((err) => console.error(err));*/
   };
 
   render() {

@@ -8,9 +8,11 @@ import {
   Card,
   MediaBox,
 } from "react-materialize";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import M from "materialize-css";
 import "../css/Middle.css";
+import "../css/Scroll.css";
+import Swal from "sweetalert2";
 
 export default class _ extends Component {
   constructor(props) {
@@ -20,6 +22,7 @@ export default class _ extends Component {
       juegos: [],
       tituloModal: "",
       descripcionModal: "",
+      bus: false,
     };
   }
 
@@ -51,6 +54,15 @@ export default class _ extends Component {
   };
 
   render() {
+    if (this.state.bus)
+      return (
+        <Redirect
+          to={{
+            pathname: "/busqueda",
+            state: { busqueda: this.state.busqueda, tipo: 1 },
+          }}
+        />
+      );
     return (
       <div className="Middle container">
         <ul>
@@ -64,22 +76,27 @@ export default class _ extends Component {
             />
           </li>
           <li>
-            <Link
-              to={{
-                pathname: "/busqueda",
-                state: { busqueda: this.state.busqueda, tipo: 1 },
+            <Button
+              type="submit"
+              waves="light"
+              className="purple darken-3"
+              tooltip="Busca un videojuego con tus ideas sobre el"
+              onClick={() => {
+                if (this.state.busqueda.length >= 4)
+                  this.setState({ bus: true });
+                else {
+                  Swal.fire(
+                    "¡Error!",
+                    "La busqueda debe tener al menos 4 caracteres.",
+                    "error"
+                  );
+                  this.setState({ busqueda: "" });
+                }
               }}
             >
-              <Button
-                type="submit"
-                waves="light"
-                className="purple darken-3"
-                tooltip="Busca un videojuego con tus ideas sobre el"
-              >
-                Buscar
-                <Icon right>search</Icon>
-              </Button>
-            </Link>
+              Buscar
+              <Icon right>search</Icon>
+            </Button>
             <Button
               style={{ float: "right" }}
               type="submit"
@@ -94,7 +111,8 @@ export default class _ extends Component {
           </li>
         </ul>
         <div style={{ paddingTop: 30, paddingBottom: 30 }}>
-          <Collapsible accordion>
+          <h5>Juegos más recientes añadidos</h5>
+          <Collapsible accordion popout>
             {this.state.juegos.map((juego) => {
               return (
                 <CollapsibleItem
@@ -126,8 +144,13 @@ export default class _ extends Component {
                       <MediaBox id={juego._id}>
                         <img
                           alt="Representación de juego"
-                          src="https://materializecss.com/images/sample-1.jpg"
-                          width="450"
+                          src={
+                            juego.image == null
+                              ? `http://localhost:4000/uploads/undefined.png`
+                              : `http://localhost:4000/${juego.image}`
+                          }
+                          width="300"
+                          height="300"
                         />
                       </MediaBox>
                     }
@@ -156,9 +179,7 @@ export default class _ extends Component {
           </Collapsible>
         </div>
         <div
-          ref={(Modal) => {
-            this.Modal = Modal;
-          }}
+          ref={(Modal) => (this.Modal = Modal)}
           id="modal1"
           className="modal"
         >

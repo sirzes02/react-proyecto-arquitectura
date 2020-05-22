@@ -62,11 +62,9 @@ export default class _ extends Component {
                 <img src={fondo} alt="Fondo" />
               </div>
               <span style={{ paddingTop: 90 }} className="black-text name">
-                Usuario de pruebas
+                Bienvenido a su búsqueda
               </span>
-              <span className="black-text email">
-                usuario_de_pruebas@gmail.com
-              </span>
+              <span className="black-text email">Defina los parametros</span>
             </div>
           </li>
           <li className="divider" />
