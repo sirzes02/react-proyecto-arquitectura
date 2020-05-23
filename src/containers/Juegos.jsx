@@ -287,6 +287,9 @@ export default class _ extends Component {
           </form>
         </div>
         <div style={{ padding: 40 }}>
+          <div style={{ float: "right", marginRight: "3%" }}>
+            <b>Cantidad:</b> {this.state.juegos.length}
+          </div>
           <div className="scroll">
             <Table hoverable responsive>
               <thead>

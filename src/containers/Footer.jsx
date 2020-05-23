@@ -26,6 +26,14 @@ export default class _ extends Component {
                   React Materialize
                 </a>
               </li>
+              <li>
+                <a
+                  className="grey-text text-lighten-3"
+                  href="https://sweetalert2.github.io/"
+                >
+                  Sweet Alert 2
+                </a>
+              </li>
             </ul>
           }
           moreLinks={<div className="right">Santiago Varela - José Castro</div>}
