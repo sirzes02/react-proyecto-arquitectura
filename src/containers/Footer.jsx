@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Footer } from "react-materialize";
+import { Link } from "react-router-dom";
 import "../css/Footer.css";
 
 export default class _ extends Component {
@@ -40,6 +41,13 @@ export default class _ extends Component {
         >
           <h5>Proyecto de arquitectura de la información</h5>
           <p>Objetivo de analisis: MERN - Videojuegos</p>
+          <p>
+            ¿Eres{" "}
+            <b>
+              <Link to="/rutaAdministrador">administrador</Link>
+            </b>
+            ?
+          </p>
         </Footer>
       </div>
     );

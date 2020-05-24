@@ -5,13 +5,11 @@ import PropTypes from "prop-types";
 export default class _ extends Component {
   render() {
     return (
-      <div className="Parallax">
-        <Parallax image={<img alt="" src={this.props.imagen} width="25" />} />
-      </div>
+      <Parallax image={<img alt="" src={this.props.imagen} width="25" />} />
     );
   }
 }
 
 _.propTypes = {
-  imagen: PropTypes.string.isRequired
+  imagen: PropTypes.string.isRequired,
 };

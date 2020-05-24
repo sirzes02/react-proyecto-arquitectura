@@ -6,6 +6,7 @@ import {
   MediaBox,
   Card,
   Icon,
+  Carousel,
 } from "react-materialize";
 import M from "materialize-css";
 import { Link } from "react-router-dom";
@@ -21,6 +22,8 @@ export default class _ extends Component {
       mostrar: [],
       tituloModal: "",
       descripcionModal: "",
+      imgs: [],
+      cargaImg: false,
     };
   }
 
@@ -29,6 +32,14 @@ export default class _ extends Component {
       .then((res) => res.json())
       .then((data) => this.setState({ juegos: data }))
       .catch((err) => console.error(err));
+
+    await this.setState({
+      imgs: this.state.juegos.map((juego) => {
+        return "http://localhost:4000/" + juego.image;
+      }),
+    });
+
+    this.setState({ cargaImg: true });
 
     let arr = [];
 
@@ -128,7 +139,9 @@ export default class _ extends Component {
 */
 
       this.setState({ mostrar: arr });
-    } else
+    } else if (busqueda[0].length === 0)
+      this.setState({ mostrar: this.state.juegos });
+    else
       M.toast({
         html: "Su busqueda de datos debe teenr al menos cuatro caracteres",
       });
@@ -136,91 +149,119 @@ export default class _ extends Component {
 
   render() {
     return (
-      <div className="Busqueda container">
-        <h5>
-          Busqueda por:{" "}
-          <b>
-            {this.props.location.state.tipo === 1
-              ? "Palabras claves"
-              : this.props.location.state.tipo === 2
-              ? "Parametrización"
-              : "Todos"}
-          </b>
-        </h5>
-        <br />
-        <div style={{ float: "right", marginRight: "3%" }}>
-          <b>Cantidad:</b> {this.state.mostrar.length}
-        </div>
-        <div className="scroll">
-          <Collapsible accordion popout>
-            {this.state.mostrar.map((juego) => {
-              return (
-                <CollapsibleItem
-                  key={juego._id}
-                  expanded={false}
-                  header={juego.title}
-                  icon={
-                    <Icon>
-                      {iconos[Math.floor(Math.random() * iconos.length)]}
-                    </Icon>
-                  }
-                >
-                  <Card
-                    style={{ backgroundcolor: "red" }}
-                    actions={[
-                      <div key={juego._id}>
-                        <Button
-                          className="modal-trigger yellow darken-3"
-                          waves="light"
-                          data-target="modal1"
-                          name={juego._id}
-                          onClick={this.cambioModal}
-                        >
-                          Descripción
-                        </Button>
-                      </div>,
-                    ]}
-                    header={
-                      <MediaBox id={juego._id}>
-                        <img
-                          alt="Representación de juego"
-                          src={
-                            juego.image == null
-                              ? `http://localhost:4000/uploads/undefined.png`
-                              : `http://localhost:4000/${juego.image}`
-                          }
-                          width="300"
-                          height="300"
-                        />
-                      </MediaBox>
+      <div
+        className="Busqueda row"
+        style={{ marginLeft: "4%", marginRight: "4%" }}
+      >
+        <div className="col s7">
+          <h5>
+            Busqueda por:{" "}
+            <b>
+              {this.props.location.state.tipo === 1
+                ? "Palabras claves"
+                : this.props.location.state.tipo === 2
+                ? "Parametrización"
+                : "Todos"}
+            </b>
+          </h5>
+          <br />
+          <div style={{ float: "right", marginRight: "3%" }}>
+            <b>Cantidad:</b> {this.state.mostrar.length} de{" "}
+            {this.state.juegos.length}
+          </div>
+          <div className="scroll">
+            <Collapsible accordion popout>
+              {this.state.mostrar.map((juego) => {
+                return (
+                  <CollapsibleItem
+                    key={juego._id}
+                    expanded={false}
+                    header={juego.title}
+                    icon={
+                      <Icon>
+                        {iconos[Math.floor(Math.random() * iconos.length)]}
+                      </Icon>
                     }
-                    horizontal
                   >
-                    <h5>{juego.title}</h5>
+                    <Card
+                      style={{ backgroundcolor: "red" }}
+                      actions={[
+                        <div key={juego._id}>
+                          <Button
+                            className="modal-trigger yellow darken-3"
+                            waves="light"
+                            data-target="modal1"
+                            name={juego._id}
+                            onClick={this.cambioModal}
+                          >
+                            Descripción
+                          </Button>
+                        </div>,
+                      ]}
+                      header={
+                        <MediaBox id={juego._id}>
+                          <img
+                            alt="Representación de juego"
+                            src={
+                              juego.image == null
+                                ? `http://localhost:4000/uploads/undefined.png`
+                                : `http://localhost:4000/${juego.image}`
+                            }
+                            width="300"
+                            height="300"
+                          />
+                        </MediaBox>
+                      }
+                      horizontal
+                    >
+                      <h5>{juego.title}</h5>
 
-                    <p style={{ paddingTop: 10 }}>
-                      <span>Genero: </span>
-                      {genero[juego.genre - 1]}
-                      <br />
-                      <span>Clasificación: </span>
-                      {clasificacion[juego.clasification - 1]}
-                      <br />
-                      <span>Año de salida: </span>
-                      {juego.year}
-                      <br />
-                      <span>Requisitos: </span>
-                      {requisitos[juego.requirements - 1]}
-                      <br />
-                    </p>
-                  </Card>
-                </CollapsibleItem>
-              );
-            })}
-          </Collapsible>
+                      <p style={{ paddingTop: 10 }}>
+                        <span>Genero: </span>
+                        {genero[juego.genre - 1]}
+                        <br />
+                        <span>Clasificación: </span>
+                        {clasificacion[juego.clasification - 1]}
+                        <br />
+                        <span>Año de salida: </span>
+                        {juego.year}
+                        <br />
+                        <span>Requisitos: </span>
+                        {requisitos[juego.requirements - 1]}
+                        <br />
+                      </p>
+                    </Card>
+                  </CollapsibleItem>
+                );
+              })}
+            </Collapsible>
+          </div>
         </div>
-        <div style={{ marginTop: "2%", marginBottom: "2%" }}>
+        <div className="col s1" />
+        <div className="col s4" style={{ paddingTop: "5%" }}>
+          {this.state.cargaImg && <Carousel images={this.state.imgs} />}
+        </div>
+        <div className="col s4 container">
+          <h4>Catálogo de portadas...</h4>
+        </div>
+        <div
+          ref={(Modal) => (this.Modal = Modal)}
+          id="modal1"
+          className="modal"
+        >
+          <div className="modal-content">
+            <h4>{this.state.tituloModal}</h4>
+            <p>{this.state.descripcionModal}</p>
+          </div>
+          <div className="modal-footer">
+            <Button className="modal-close" waves="light">
+              Cerrar
+            </Button>
+          </div>
+        </div>
+        <div className="col s7" style={{ marginTop: "1%", marginBottom: "2%" }}>
           <Link to="/">
-            <Button type="submit" waves="light" className="purple darken-3">
+            <Button waves="light" className="purple darken-3">
               {this.props.location.state.tipo === 1 ||
               this.props.location.state.tipo === 3
                 ? "Atras"
@@ -269,21 +310,6 @@ export default class _ extends Component {
           >
             Buscar <Icon right>search</Icon>
           </Button>
-        </div>
-        <div
-          ref={(Modal) => (this.Modal = Modal)}
-          id="modal1"
-          className="modal"
-        >
-          <div className="modal-content">
-            <h4>{this.state.tituloModal}</h4>
-            <p>{this.state.descripcionModal}</p>
-          </div>
-          <div className="modal-footer">
-            <Button className="modal-close" waves="light">
-              Cerrar
-            </Button>
-          </div>
         </div>
       </div>
     );
