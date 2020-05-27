@@ -33,6 +33,7 @@ app.use(
   })
 );
 app.use(cors());
+app.use("/uploads", express.static("uploads"));
 app.use("/games", gameRoute);
 app.use("/passwords", passwordRoute);
 

@@ -3,11 +3,18 @@ import { Tabs, Tab, Button, Icon } from "react-materialize";
 import { Redirect } from "react-router-dom";
 import Juegos from "../containers/Juegos";
 import Contrasenias from "../containers/Contrasenias";
+import Swal from "sweetalert2";
 
 export default class _ extends Component {
   constructor(props) {
     super(props);
     this.state = { admin: true };
+
+    Swal.fire({
+      title: "Bienvenido!",
+      html: `Estas en la sesion de: <b>Administrador</b>`,
+      timer: 2000,
+    });
   }
 
   cerrarSesion = () => {

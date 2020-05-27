@@ -8,9 +8,11 @@ import {
   Card,
   MediaBox,
 } from "react-materialize";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import M from "materialize-css";
 import "../css/Middle.css";
+import "../css/Scroll.css";
+import Swal from "sweetalert2";
 
 export default class _ extends Component {
   constructor(props) {
@@ -20,6 +22,8 @@ export default class _ extends Component {
       juegos: [],
       tituloModal: "",
       descripcionModal: "",
+      bus: false,
+      bus2: false,
     };
   }
 
@@ -51,129 +55,162 @@ export default class _ extends Component {
   };
 
   render() {
-    return (
-      <div className="Middle container">
-        <ul>
-          <li style={{ paddingTop: 10 }}>
-            <TextInput
-              id="textinput_1_middle"
-              name="busqueda"
-              label="Búsqueda de videojuegos..."
-              value={this.state.busqueda}
-              onChange={(e) => this.setState({ busqueda: e.target.value })}
-            />
-          </li>
-          <li>
-            <Link
-              to={{
-                pathname: "/busqueda",
-                state: { busqueda: this.state.busqueda, tipo: 1 },
-              }}
-            >
+    if (this.state.bus)
+      return (
+        <Redirect
+          to={{
+            pathname: "/busqueda",
+            state: { busqueda: this.state.busqueda, tipo: 1 },
+          }}
+        />
+      );
+    else if (this.state.bus2)
+      return (
+        <Redirect
+          to={{
+            pathname: "/busqueda",
+            state: { tipo: 2 },
+          }}
+        />
+      );
+    else
+      return (
+        <div className="Middle container">
+          <ul>
+            <li style={{ paddingTop: 10 }}>
+              <TextInput
+                id="textinput_1_middle"
+                name="busqueda"
+                label="Búsqueda de videojuegos..."
+                value={this.state.busqueda}
+                onChange={(e) => this.setState({ busqueda: e.target.value })}
+              />
+            </li>
+            <li>
               <Button
                 type="submit"
                 waves="light"
                 className="purple darken-3"
                 tooltip="Busca un videojuego con tus ideas sobre el"
+                onClick={() => {
+                  if (this.state.busqueda.length >= 4)
+                    this.setState({ bus: true });
+                  else {
+                    Swal.fire(
+                      "¡Error!",
+                      "La busqueda debe tener al menos 4 caracteres.",
+                      "error"
+                    );
+                    this.setState({ busqueda: "" });
+                  }
+                }}
               >
                 Buscar
                 <Icon right>search</Icon>
               </Button>
-            </Link>
-            <Button
-              style={{ float: "right" }}
-              type="submit"
-              waves="light"
-              className="red darken-3"
-              tooltip="Limpiar la entrada de datos"
-              onClick={() => this.setState({ busqueda: "" })}
-            >
-              Limpiar
-              <Icon right>delete</Icon>
-            </Button>
-          </li>
-        </ul>
-        <div style={{ paddingTop: 30, paddingBottom: 30 }}>
-          <Collapsible accordion>
-            {this.state.juegos.map((juego) => {
-              return (
-                <CollapsibleItem
-                  key={juego._id}
-                  expanded={false}
-                  header={juego.title}
-                  icon={
-                    <Icon>
-                      {iconos[Math.floor(Math.random() * iconos.length)]}
-                    </Icon>
-                  }
-                >
-                  <Card
-                    style={{ backgroundcolor: "red" }}
-                    actions={[
-                      <div key={juego._id}>
-                        <Button
-                          className="modal-trigger yellow darken-3"
-                          waves="light"
-                          data-target="modal1"
-                          name={juego._id}
-                          onClick={this.cambioModal}
-                        >
-                          Descripción
-                        </Button>
-                      </div>,
-                    ]}
-                    header={
-                      <MediaBox id={juego._id}>
-                        <img
-                          alt="Representación de juego"
-                          src="https://materializecss.com/images/sample-1.jpg"
-                          width="450"
-                        />
-                      </MediaBox>
+              <Button
+                style={{ float: "right" }}
+                type="submit"
+                waves="light"
+                className="red darken-3"
+                tooltip="Limpiar la entrada de datos"
+                onClick={() => this.setState({ busqueda: "" })}
+              >
+                Limpiar
+                <Icon right>delete</Icon>
+              </Button>
+            </li>
+          </ul>
+          <div style={{ paddingTop: 30, paddingBottom: 30 }}>
+            <h5>Juegos más recientes añadidos</h5>
+            <Collapsible accordion popout>
+              {this.state.juegos.map((juego) => {
+                return (
+                  <CollapsibleItem
+                    key={juego._id}
+                    expanded={false}
+                    header={juego.title}
+                    icon={
+                      <Icon>
+                        {iconos[Math.floor(Math.random() * iconos.length)]}
+                      </Icon>
                     }
-                    horizontal
                   >
-                    <h5>{juego.title}</h5>
+                    <Card
+                      style={{ backgroundcolor: "red" }}
+                      actions={[
+                        <div key={juego._id}>
+                          <Button
+                            className="modal-trigger yellow darken-3"
+                            waves="light"
+                            data-target="modal1"
+                            name={juego._id}
+                            onClick={this.cambioModal}
+                          >
+                            Descripción
+                          </Button>
+                        </div>,
+                      ]}
+                      header={
+                        <MediaBox id={juego._id}>
+                          <img
+                            alt="Representación de juego"
+                            src={
+                              juego.image == null
+                                ? `http://localhost:4000/uploads/undefined.png`
+                                : `http://localhost:4000/${juego.image}`
+                            }
+                            width="300"
+                            height="300"
+                          />
+                        </MediaBox>
+                      }
+                      horizontal
+                    >
+                      <h5>{juego.title}</h5>
 
-                    <p style={{ paddingTop: 10 }}>
-                      <span>Genero: </span>
-                      {genero[juego.genre - 1]}
-                      <br />
-                      <span>Clasificación: </span>
-                      {clasificacion[juego.clasification - 1]}
-                      <br />
-                      <span>Año de salida: </span>
-                      {juego.year}
-                      <br />
-                      <span>Requisitos: </span>
-                      {requisitos[juego.requirements - 1]}
-                      <br />
-                    </p>
-                  </Card>
-                </CollapsibleItem>
-              );
-            })}
-          </Collapsible>
-        </div>
-        <div
-          ref={(Modal) => {
-            this.Modal = Modal;
-          }}
-          id="modal1"
-          className="modal"
-        >
-          <div className="modal-content">
-            <h4>{this.state.tituloModal}</h4>
-            <p>{this.state.descripcionModal}</p>
+                      <p style={{ paddingTop: 10 }}>
+                        <span>Genero: </span>
+                        {genero[juego.genre - 1]}
+                        <br />
+                        <span>Clasificación: </span>
+                        {clasificacion[juego.clasification - 1]}
+                        <br />
+                        <span>Año de salida: </span>
+                        {juego.year}
+                        <br />
+                        <span>Requisitos: </span>
+                        {requisitos[juego.requirements - 1]}
+                        <br />
+                      </p>
+                    </Card>
+                  </CollapsibleItem>
+                );
+              })}
+            </Collapsible>
           </div>
-          <div className="modal-footer">
-            <Button className="modal-close" waves="light">
-              Cerrar
+          <div style={{ marginBottom: "3%" }}>
+            <Button waves="light" onClick={() => this.setState({ bus2: true })}>
+              Ver todos
             </Button>
           </div>
+          <div
+            ref={(Modal) => (this.Modal = Modal)}
+            id="modal1"
+            className="modal"
+          >
+            <div className="modal-content">
+              <h4>{this.state.tituloModal}</h4>
+              <p>{this.state.descripcionModal}</p>
+            </div>
+            <div className="modal-footer">
+              <Button className="modal-close" waves="light">
+                Cerrar
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
-    );
+      );
   }
 }
 
