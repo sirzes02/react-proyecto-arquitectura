@@ -1,0 +1,6 @@
+COMANDOS PARA IMPORTAR
+
+mongoimport --db games --collection passwords --file ./passwords.json --jsonArray
+mongoimport --db games --collection games --file ./games.json --jsonArray
+
+

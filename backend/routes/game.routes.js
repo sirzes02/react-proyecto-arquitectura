@@ -34,10 +34,9 @@ router.get("/nuevosJuegos", async (req, res) => {
   let games = await Game.find();
 
   //Orden segun el anio
-  games.sort(function (a, b) {
+  await games.sort(function (a, b) {
     return b.year - a.year;
   });
-
   res.json([games[0], games[1], games[2], games[3], games[4]]);
 });
 
